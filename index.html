@@ -310,6 +310,15 @@ body {
 </div>
 
 <script>
+
+function jumpToFolder(id, name) {
+  stack = []; // Svuota completamente il percorso precedente
+  const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?f=' + id;
+  window.history.pushState({ folderId: id, folderName: name, stack: [] }, "", newUrl);
+  loadFolder(id, name);
+}
+
+ 
 // --- CONFIGURAZIONE ---
 const API_KEY = 'AIzaSyCK1qxkszf-Zvwovt2QgYzru4cIkkIBVdE';
 const ROOT_ID = '14WaurkHwQIuqCs7cPN-nNYLlax0xpfRD';
@@ -511,7 +520,7 @@ function buildSidebar(folders) {
     }
 
     // 4. Aggiungiamo l'elemento del semestre
-    html += `<li class="nav-item" onclick="enterFolder('${f.id}','${eq(f.name)}')" title="${eh(f.name)}">
+    html += `<li class="nav-item" onclick="jumpToFolder('${f.id}','${eq(f.name)}')" title="${eh(f.name)}">
                <span class="ni">📅</span> ${eh(f.name.length > 22 ? f.name.slice(0, 20) + '…' : f.name)}
              </li>`;
   });
