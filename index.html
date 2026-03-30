@@ -288,7 +288,7 @@ async function loadFolder(id, name) {
       buildSidebar(allItems.filter(f => f.mimeType === 'application/vnd.google-apps.folder'));
       document.getElementById('section-title').textContent = 'Tutti i semestri';
     } else {
-      document.getElementById('section-title').textContent = name || 'Cartella';
+      document.getElementById('section-title').textContent = (name === 'Caricamento...') ? 'Cartella' : name;
     }
     render();
   } catch(e) {
@@ -356,31 +356,61 @@ function buildSidebar(folders) {
 
 function updateBreadcrumb(name) {
   let html = `<span onclick="navRoot()">🏠 UniFi</span>`;
-  stack.forEach((item,i)=>{ html+=`<span class="sep">›</span><span onclick="navStack(${i})">${eh(item.name)}</span>`; });
-  if (name) html+=`<span class="sep">›</span><span class="current">${eh(name)}</span>`;
+  stack.forEach((item, i) => { 
+    if(item.id !== ROOT_ID) {
+      html += `<span class="sep">›</span><span onclick="navStack(${i})">${eh(item.name)}</span>`; 
+    }
+  });
+  if (name && name !== 'UniFi' && name !== 'Archivio Universitario di Biologia') {
+    html += `<span class="sep">›</span><span class="current">${eh(name)}</span>`;
+  }
   document.getElementById('breadcrumb').innerHTML = html;
-  document.getElementById('header-sub').textContent = name || 'UniFi';
+  document.getElementById('header-sub').textContent = (name && name !== 'Caricamento...') ? name : 'UniFi';
 }
 
 function enterFolder(id, name) {
   stack.push({ id: currentId, name: document.getElementById('header-sub').textContent });
+  const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?f=' + id;
+  window.history.pushState({ folderId: id, folderName: name, stack: [...stack] }, "", newUrl);
   loadFolder(id, name);
-  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
 }
+
 function navRoot() {
   stack = [];
+  const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+  window.history.pushState({}, "", newUrl);
   document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
   document.getElementById('nav-root')?.classList.add('active');
   loadFolder(ROOT_ID);
 }
-function navStack(i) { const t=stack[i]; stack=stack.slice(0,i); loadFolder(t.id,t.name); }
+
+function navStack(i) { 
+  const t=stack[i]; 
+  stack=stack.slice(0,i); 
+  const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?f=' + t.id;
+  window.history.pushState({ folderId: t.id, folderName: t.name, stack: [...stack] }, "", newUrl);
+  loadFolder(t.id,t.name); 
+}
+
 function openFile(id) { window.open(`https://drive.google.com/file/d/${id}/view`,'_blank'); }
+
 function setView(v) {
   currentView=v;
   document.getElementById('btn-grid').classList.toggle('active',v==='grid');
   document.getElementById('btn-list').classList.toggle('active',v==='list');
   render();
 }
+
+window.onpopstate = function(event) {
+  if (event.state && event.state.folderId) {
+    stack = event.state.stack || [];
+    loadFolder(event.state.folderId, event.state.folderName);
+  } else {
+    stack = [];
+    loadFolder(ROOT_ID);
+  }
+};
 
 function ico(f) {
   const m=f.mimeType||'', n=f.name.toLowerCase();
@@ -394,6 +424,7 @@ function ico(f) {
   if(/\.(mp4|mov|avi)$/.test(n)) return '🎬';
   return '📎';
 }
+
 function fmt(b) {
   if(!b) return '—';
   if(b<1024) return b+' B';
@@ -401,16 +432,26 @@ function fmt(b) {
   if(b<1073741824) return (b/1048576).toFixed(1)+' MB';
   return (b/1073741824).toFixed(2)+' GB';
 }
+
 function rel(iso) {
   const d=Math.floor((Date.now()-new Date(iso))/86400000);
   if(d===0) return 'oggi'; if(d===1) return 'ieri';
   if(d<30) return d+' gg fa'; if(d<365) return Math.floor(d/30)+' mesi fa';
   return Math.floor(d/365)+' anni fa';
 }
+
 function eh(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function eq(s) { return s.replace(/'/g,"\\'"); }
 
-loadFolder(ROOT_ID);
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const folderId = params.get('f');
+  if (folderId && folderId !== ROOT_ID) {
+    loadFolder(folderId, "Caricamento...");
+  } else {
+    loadFolder(ROOT_ID);
+  }
+})();
 </script>
 </body>
 </html>
