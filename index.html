@@ -274,7 +274,7 @@ async function fetchItems(folderId) {
     items = items.concat(d.files || []);
     pageToken = d.nextPageToken || '';
   } while (pageToken);
-  return items.filter(f => !EXCLUDED.includes(f.name.toLowerCase()));
+  return items.filter(f => !f.name.startsWith('_') && !EXCLUDED.includes(f.name.toLowerCase()));
 }
 
 async function loadFolder(id, name) {
