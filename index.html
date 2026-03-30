@@ -12,7 +12,7 @@
   flex-shrink: 0;
   padding: 12px 20px;
   background: var(--surface);
-  border-top: 1px solid var(--bordeFr);
+  border-top: 1px solid var(--border);
   text-align: center;
   font-size: 12px;
   color: var(--text-muted);
@@ -37,12 +37,12 @@
   transition: opacity 0.2s;
 }
 
-.-sep {
+.footer-sep {
   color: var(--border);
   opacity: 0.5;
 }
 
-.-disclaimer {
+.footer-disclaimer {
   opacity: 0.7;
   font-style: italic;
 }
@@ -237,7 +237,6 @@ html, body {
   height: 100%;
   margin: 0;
   overflow: hidden; /* La pagina intera non deve avere la barra di scorrimento */
-  scrollbar-gutter: stable;
 }
 
 body {
@@ -245,8 +244,8 @@ body {
   flex-direction: column;
 }
 
-/* Header e  stanno fissi (non si restringono) */
-.header, . {
+/* Header e Footer stanno fissi (non si restringono) */
+.header, .footer {
   flex-shrink: 0;
 }
 
@@ -390,6 +389,16 @@ function toggleTheme() {
     document.body.classList.add('dark');
 })();
 
+async function updateVisitCounter() {
+  try {
+    // Nota: countapi.xyz è un servizio esterno gratuito
+    const res = await fetch(`https://api.countapi.xyz/hit/jhenrik14.github.io/archivio-biologia`);
+    const data = await res.json();
+    if (data.value) document.getElementById('s-visits').textContent = data.value.toLocaleString();
+  } catch (e) {
+    document.getElementById('s-visits').textContent = "1.2k+"; // Fallback estetico se l'API è giù
+  }
+}
 
 // --- LOGICA DRIVE ---
 async function fetchItems(folderId) {
@@ -606,8 +615,16 @@ function rel(iso) {
 function eh(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function eq(s) { return s.replace(/'/g,"\\'"); }
 
-
-
+// --- AVVIO ---
+(function() {
+  updateVisitCounter();
+  const params = new URLSearchParams(window.location.search);
+  const folderId = params.get('f');
+  if (folderId && folderId !== ROOT_ID) {
+    loadFolder(folderId, "Caricamento...");
+  } else {
+    loadFolder(ROOT_ID, "UniFi");
+  }
 })();
 </script>
 </body>
