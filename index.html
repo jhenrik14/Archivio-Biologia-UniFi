@@ -37,12 +37,12 @@
   transition: opacity 0.2s;
 }
 
-.footer-sep {
+.-sep {
   color: var(--border);
   opacity: 0.5;
 }
 
-.footer-disclaimer {
+.-disclaimer {
   opacity: 0.7;
   font-style: italic;
 }
@@ -245,8 +245,8 @@ body {
   flex-direction: column;
 }
 
-/* Header e Footer stanno fissi (non si restringono) */
-.header, .footer {
+/* Header e  stanno fissi (non si restringono) */
+.header, . {
   flex-shrink: 0;
 }
 
@@ -390,15 +390,6 @@ function toggleTheme() {
     document.body.classList.add('dark');
 })();
 
-async function updateVisitCounter() {
-  try {
-    const res = await fetch('https://archivio-biologia.goatcounter.com/counter//index.html.json');
-    const data = await res.json();
-    if (data.count) document.getElementById('s-visits').textContent = data.count.toLocaleString('it-IT');
-  } catch(e) {
-    document.getElementById('s-visits').textContent = '—';
-  }
-}
 
 // --- LOGICA DRIVE ---
 async function fetchItems(folderId) {
@@ -619,7 +610,5 @@ function eq(s) { return s.replace(/'/g,"\\'"); }
 
 })();
 </script>
-<script data-goatcounter="https://archiviobiologia.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
