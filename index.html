@@ -431,17 +431,22 @@ function toggleTheme() {
     document.body.classList.add('dark');
 })();
 
-aasync function updateVisitCounter() {
+async function updateVisitCounter() {
   try {
-    const res = await fetch(`https://api.countapi.xyz/hit/archivio-biologia/visite`);
-    const data = await res.json();
+    const path = window.location.pathname || "/";
+    const url = `https://archiviobiologia.goatcounter.com/counter/${encodeURIComponent(path)}.json`;
 
-    const count = data.value || 0;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Errore fetch");
+
+    const data = await res.json();
+    const count = data.count || 0;
 
     document.getElementById('visit-count').textContent = count.toLocaleString();
     document.getElementById('s-visits').textContent = count.toLocaleString();
 
   } catch (e) {
+    console.log("Errore GoatCounter:", e);
     document.getElementById('visit-count').textContent = "—";
     document.getElementById('s-visits').textContent = "—";
   }
