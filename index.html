@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+ 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -189,6 +190,49 @@
   @keyframes spin { to { transform: rotate(360deg); } }
 
   @media (max-width: 700px) { .sidebar { display: none; } .main { padding: 1rem; } .header { padding: 0 1rem; } }
+
+
+ /* Blocca l'esterno e usa il Flexbox per gestire gli spazi */
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* La pagina intera non deve avere la barra di scorrimento */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header e Footer stanno fissi (non si restringono) */
+.header, .footer {
+  flex-shrink: 0;
+}
+
+/* Il layout centrale occupa tutto lo spazio rimasto */
+.layout {
+  flex: 1;
+  display: flex;
+  overflow: hidden; /* Fondamentale: impedisce al layout di "scoppiare" */
+}
+
+/* Rende la Sidebar e la Main scorrevoli INDIPENDENTEMENTE */
+.sidebar, .main {
+  height: 100%;
+  overflow-y: auto; /* Abilita lo scorrimento solo qui dentro */
+  -webkit-overflow-scrolling: touch; /* Rende lo scroll fluido su iPhone/iPad */
+}
+
+/* Fix per le briciole di pane (breadcrumb) che vedi ammassate */
+.breadcrumb {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto; /* Se diventano troppo lunghe, scorrono lateralmente */
+  white-space: nowrap; /* Non le fa andare a capo */
+  padding-bottom: 10px;
+  scrollbar-width: none; /* Nasconde la barra brutta su Firefox */
+}
+.breadcrumb::-webkit-scrollbar { display: none; } /* Nasconde la barra su Chrome/Safari */
 
 
  
