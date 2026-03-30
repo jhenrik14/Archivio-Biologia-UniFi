@@ -93,7 +93,15 @@
   body.dark .toggle-track { background: var(--accent); border-color: var(--accent-muted); }
   body.dark .toggle-track::after { transform: translateX(20px); background: #fff; }
 
-  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+  .layout {
+  flex: 1;
+  display: flex;
+  width: 100%; /* Occupa tutto lo spazio */
+  max-width: 1400px; /* Leggermente più largo per stare comodi */
+  margin: 0 auto;
+  overflow: hidden;
+  
+  }
 
   .sidebar {
     width: 220px; 
@@ -120,7 +128,7 @@
   .nav-item.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
   .nav-item .ni { font-size: 13px; flex-shrink: 0; }
 
-  .main { flex: 1; padding: 1.5rem 2rem; min-width: 0; height: 100%; overflow-y: auto; }
+  .main { flex: 1; padding: 1.5rem 2rem; min-width: 0; height: 100%; overflow-y: scroll; }
 
   .breadcrumb { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--text-light); margin-bottom: 1.25rem; flex-wrap: wrap; white-space: nowrap;
    overflow-x: auto; scrollbar-width: none; }
@@ -129,6 +137,30 @@
   .breadcrumb span:hover { color: var(--accent); }
   .breadcrumb .sep { color: var(--border-hover); }
   .breadcrumb .current { color: var(--text-muted); cursor: default; }
+
+   /* --- FIX PER STABILIZZARE IL CARICAMENTO --- */
+
+#file-container {
+  min-height: 500px; /* Impedisce al sito di rimpicciolirsi quando la cartella è vuota o carica */
+  display: flex;
+  flex-direction: column;
+}
+
+.state-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 0;
+  min-height: 300px; /* Tiene l'icona di caricamento al centro dello schermo */
+}
+
+/* Forza la barra di scorrimento laterale a restare sempre visibile */
+/* Questo evita che la pagina si allarghi/restringa ogni volta che apri una cartella */
+.main {
+  overflow-y: scroll !important; 
+}
 
   .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
   .toolbar-left { display: flex; align-items: center; gap: 8px; flex: 1; }
@@ -248,6 +280,9 @@ body {
   overflow: hidden;
 }
 .layout { flex: 1; overflow: hidden; }
+
+
+ 
 </style>
 </head>
 <body>
