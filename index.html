@@ -445,9 +445,36 @@ function updateStats(items) {
 }
 
 function buildSidebar(folders) {
-  document.getElementById('nav-list').innerHTML =
-    `<li class="nav-item active" id="nav-root" onclick="navRoot()"><span class="ni">🏠</span> Tutti i semestri</li>` +
-    folders.map(f=>`<li class="nav-item" onclick="enterFolder('${f.id}','${eq(f.name)}')" title="${eh(f.name)}"><span class="ni">📅</span> ${eh(f.name.length>20?f.name.slice(0,18)+'…':f.name)}</li>`).join('');
+  const container = document.getElementById('nav-list');
+  // Partiamo sempre con il tasto Home
+  let html = `<li class="nav-item active" id="nav-root" onclick="navRoot()"><span class="ni">🏠</span> Tutti i semestri</li>`;
+  
+  // 1. Ordiniamo le cartelle per nome (es. 1.1, 1.2, 2.1...)
+  folders.sort((a, b) => a.name.localeCompare(b.name));
+  
+  let ultimoAnnoTrovato = null;
+
+  folders.forEach(f => {
+    // 2. Cerchiamo il primo numero nel nome (es: estrae "1" da "LEZIONI 1.1")
+    const match = f.name.match(/\d/); 
+    const annoAttuale = match ? match[0] : null;
+
+    // 3. Se l'anno è diverso dall'ultimo processato, inseriamo il divisore
+    if (annoAttuale && annoAttuale !== ultimoAnnoTrovato) {
+      ultimoAnnoTrovato = annoAttuale;
+      html += `
+        <div style="margin: 18px 10px 8px; border-top: 1px solid var(--border); padding-top: 10px; font-family: var(--font-mono); font-size: 10px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;">
+          ${annoAttuale}° Anno
+        </div>`;
+    }
+
+    // 4. Aggiungiamo l'elemento del semestre
+    html += `<li class="nav-item" onclick="enterFolder('${f.id}','${eq(f.name)}')" title="${eh(f.name)}">
+               <span class="ni">📅</span> ${eh(f.name.length > 22 ? f.name.slice(0, 20) + '…' : f.name)}
+             </li>`;
+  });
+
+  container.innerHTML = html;
 }
 
 function openFile(id) { window.open(`https://drive.google.com/file/d/${id}/view`,'_blank'); }
