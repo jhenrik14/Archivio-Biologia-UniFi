@@ -431,32 +431,23 @@ function toggleTheme() {
     document.body.classList.add('dark');
 })();
 
-async function updateVisitCounter() {
+aasync function updateVisitCounter() {
   try {
-    const res = await fetch('https://archiviobiologia.goatcounter.com/counter/.json');
+    const res = await fetch(`https://api.countapi.xyz/hit/archivio-biologia/visite`);
     const data = await res.json();
 
-    const count = data.count || 0;
+    const count = data.value || 0;
 
-    // Header (NUOVO)
-    const headerEl = document.getElementById('visit-count');
-    if (headerEl) headerEl.textContent = count.toLocaleString();
-
-    // Stat bar (già esistente)
-    const statEl = document.getElementById('s-visits');
-    if (statEl) statEl.textContent = count.toLocaleString();
+    document.getElementById('visit-count').textContent = count.toLocaleString();
+    document.getElementById('s-visits').textContent = count.toLocaleString();
 
   } catch (e) {
-    const fallback = "1k+";
-
-    const headerEl = document.getElementById('visit-count');
-    if (headerEl) headerEl.textContent = fallback;
-
-    const statEl = document.getElementById('s-visits');
-    if (statEl) statEl.textContent = fallback;
+    document.getElementById('visit-count').textContent = "—";
+    document.getElementById('s-visits').textContent = "—";
   }
 }
 
+ 
 // --- LOGICA DRIVE ---
 async function fetchItems(folderId) {
   let items = [], pageToken = '';
