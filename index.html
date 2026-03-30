@@ -557,6 +557,15 @@ window.onpopstate = function(event) {
 };
 
 // --- UTILS ---
+// --- UTILS ---
+function updateStats(items) {
+  const fold = items.filter(f=>f.mimeType==='application/vnd.google-apps.folder');
+  const files = items.filter(f=>f.mimeType!=='application/vnd.google-apps.folder');
+  document.getElementById('s-folders').textContent = fold.length;
+  document.getElementById('s-files').textContent = files.length;
+  document.getElementById('s-pdfs').textContent = files.filter(f=>f.mimeType==='application/pdf').length;
+}
+
 function buildSidebar(folders) {
   const container = document.getElementById('nav-list');
   // 1. Iniziamo con il tasto Home
@@ -596,7 +605,6 @@ function buildSidebar(folders) {
 
   container.innerHTML = html;
 }
-
 
  
 function openFile(id) { window.open(`https://drive.google.com/file/d/${id}/view`,'_blank'); }
