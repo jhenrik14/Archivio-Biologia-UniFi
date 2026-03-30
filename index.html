@@ -8,6 +8,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 
+ .modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(3px);
+  display: none; align-items: center; justify-content: center; z-index: 2000;
+}
+.modal-content {
+  background: var(--surface); padding: 2.5rem; border-radius: var(--radius-lg);
+  max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto;
+  position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+.modal-close {
+  position: absolute; top: 15px; right: 15px; background: none; border: none;
+  font-size: 24px; color: var(--text-muted); cursor: pointer;
+}
+
  .footer {
   flex-shrink: 0;
   padding: 12px 20px;
@@ -362,6 +377,10 @@ body {
 
 <script>
 
+function openReadme() { document.getElementById('readme-modal').style.display = 'flex'; }
+function closeReadme() { document.getElementById('readme-modal').style.display = 'none'; }
+
+
 function jumpToFolder(id, name) {
   stack = []; // Svuota completamente il percorso precedente
   const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?f=' + id;
@@ -574,6 +593,9 @@ function buildSidebar(folders) {
     html += `<li class="nav-item" onclick="jumpToFolder('${f.id}','${eq(f.name)}')" title="${eh(f.name)}">
                <span class="ni">📅</span> ${eh(f.name.length > 22 ? f.name.slice(0, 20) + '…' : f.name)}
              </li>`;
+
+     // Aggiungiamo il tasto README in fondo alla lista dei semestri
+     html += `<li class="nav-item" onclick="openReadme()" style="margin-top: 20px; border-top: 1px dashed var(--border); padding-top: 15px; color: var(--accent); font-weight: 500;">span class="ni">📖</span> Leggi README</li>`;
   });
 
   container.innerHTML = html;
@@ -627,5 +649,38 @@ function eq(s) { return s.replace(/'/g,"\\'"); }
   }
 })();
 </script>
+
+
+ <div id="readme-modal" class="modal-overlay" onclick="closeReadme()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeReadme()">×</button>
+    
+    <div class="readme-body">
+      <h2 style="font-family: var(--font-serif); color: var(--accent); margin-bottom: 1.5rem;">Benvenuti nell'Archivio</h2>
+      
+      <p style="font-style: italic; border-left: 3px solid var(--accent); padding-left: 15px; margin-bottom: 2rem; color: var(--text); line-height: 1.8;">
+        "Questa Repository nasce dal lavoro e dall'aiuto reciproco di decine di studenti che in un modo o in un altro hanno permesso la collezione di tutto il materiale. Vi prego di aiutare chi ha bisogno senza chiedere nulla in cambio e di condividere con chiunque sia interessato."
+      </p>
+
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 2rem 0;">
+
+      <h3 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.5rem;">Le Nostre Motivazioni</h3>
+      <p>Crediamo che il materiale didattico debba essere un bene comune. Questo progetto è nato per centralizzare gli sforzi di tutti e garantire il diritto allo studio in modo semplice e gratuito.</p>
+      
+      <h3 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-top: 1.5rem; margin-bottom: 0.5rem;">Note Legali & Copyright</h3>
+      <ul style="list-style: none; padding: 0; font-size: 0.9rem;">
+        <li style="margin-bottom: 8px;">🔹 <strong>Indipendenza:</strong> Questo è un progetto studentesco <u>non ufficiale</u> e non affiliato all'UniFi.</li>
+        <li style="margin-bottom: 8px;">🔹 <strong>No Profit:</strong> L'archivio è 100% gratuito e non genera alcun guadagno.</li>
+        <li style="margin-bottom: 8px;">🔹 <strong>Rimozioni:</strong> Se sei un autore e vuoi che un file venga rimosso, scrivici a: <br>
+            <a href="mailto:archivio_biologia_free@proton.me" class="email-inline">archivio_biologia_free@proton.me</a></li>
+      </ul>
+      
+      <div style="margin-top: 30px; font-size: 0.75rem; color: var(--text-light); font-family: var(--font-mono); text-align: center;">
+        Studia con noi, condividi con gli altri. — Versione 2026
+      </div>
+    </div>
+  </div>
+</div>
+ 
 </body>
 </html>
