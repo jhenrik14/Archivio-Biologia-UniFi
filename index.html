@@ -280,13 +280,21 @@ function toggleTheme() {
 })();
 
 async function updateVisitCounter() {
+  const counterEl = document.getElementById('s-visits');
+  
+  const hasCounted = sessionStorage.getItem('visited_today');
+
   try {
-    // Nota: countapi.xyz è un servizio esterno gratuito
-    const res = await fetch(`https://api.countapi.xyz/hit/jhenrik14.github.io/archivio-biologia`);
+    const mode = hasCounted ? 'get' : 'hit';
+    const res = await fetch(`https://api.countapi.xyz/${mode}/jhenrik14_biologia/visits`);
     const data = await res.json();
-    if (data.value) document.getElementById('s-visits').textContent = data.value.toLocaleString();
+    
+    if (data.value) {
+      counterEl.textContent = data.value.toLocaleString();
+      sessionStorage.setItem('visited_today', 'true');
+    }
   } catch (e) {
-    document.getElementById('s-visits').textContent = "1.2k+"; // Fallback estetico se l'API è giù
+    counterEl.textContent = "—"; 
   }
 }
 
