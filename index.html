@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archivio Universitario di Biologia — UniFi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --border: #e0ddd6;
+    --border-hover: #c8c4bb;
+    --text: #1a1916;
+    --text-muted: #706d66;
+    --text-light: #a09c94;
+    --accent: #2c4a7c;
+    --accent-light: #e8edf5;
+    --accent-muted: #6b88b5;
+    --font-serif: 'Lora', Georgia, serif;
+    --font-mono: 'DM Mono', monospace;
+    --radius: 6px;
+    --radius-lg: 10px;
+  }
+  body { font-family: var(--font-serif); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; line-height: 1.6; }
+
+  /* HEADER */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-brand { display: flex; align-items: baseline; gap: 10px; }
+  .header-brand h1 { font-size: 17px; font-weight: 500; letter-spacing: -0.01em; }
+  .header-brand span { font-family: var(--font-mono); font-size: 11px; color: var(--text-light); letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* LAYOUT */
+  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    padding: 1.5rem 1rem;
+    border-right: 1px solid var(--border);
+    min-height: calc(100vh - 60px);
+    background: var(--surface);
+  }
+  .sidebar-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); padding: 0 8px; margin-bottom: 6px; }
+  .nav-list { list-style: none; }
+  .nav-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 10px; border-radius: var(--radius);
+    cursor: pointer; font-size: 13px; color: var(--text-muted);
+    transition: all 0.12s; user-select: none;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .nav-item:hover { background: var(--bg); color: var(--text); }
+  .nav-item.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+  .nav-item .ni { font-size: 13px; flex-shrink: 0; }
+
+  /* MAIN */
+  .main { flex: 1; padding: 1.5rem 2rem; min-width: 0; }
+
+  /* BREADCRUMB */
+  .breadcrumb { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--text-light); margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .breadcrumb span { cursor: pointer; transition: color 0.12s; }
+  .breadcrumb span:hover { color: var(--accent); }
+  .breadcrumb .sep { color: var(--border-hover); }
+  .breadcrumb .current { color: var(--text-muted); cursor: default; }
+
+  /* TOOLBAR */
+  .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .toolbar-left { display: flex; align-items: center; gap: 8px; flex: 1; }
+  .search-wrap { position: relative; max-width: 260px; flex: 1; }
+  .search-wrap input {
+    font-family: var(--font-serif); font-size: 13px; width: 100%;
+    padding: 6px 12px 6px 32px; border: 1px solid var(--border);
+    border-radius: var(--radius); background: var(--surface); color: var(--text);
+    outline: none; transition: border-color 0.15s;
+  }
+  .search-wrap input::placeholder { color: var(--text-light); }
+  .search-wrap input:focus { border-color: var(--accent-muted); }
+  .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-light); font-size: 12px; pointer-events: none; }
+  .filter-select {
+    font-family: var(--font-serif); font-size: 13px; padding: 6px 10px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface); color: var(--text); outline: none; cursor: pointer;
+  }
+  .view-toggle { display: flex; gap: 2px; }
+  button { font-family: var(--font-serif); font-size: 13px; cursor: pointer; border-radius: var(--radius); transition: all 0.15s; border: 1px solid var(--border); background: var(--surface); color: var(--text); padding: 6px 14px; line-height: 1.4; }
+  button:hover { border-color: var(--border-hover); background: var(--bg); }
+  button.icon-btn { padding: 6px 8px; font-size: 14px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; min-width: 32px; }
+  button.icon-btn.active { background: var(--bg); border-color: var(--border-hover); }
+
+  /* STAT BAR */
+  .stat-bar { display: flex; gap: 1rem; padding: 10px 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1.5rem; }
+  .stat { text-align: center; flex: 1; }
+  .stat .stat-val { font-family: var(--font-mono); font-size: 17px; font-weight: 500; color: var(--accent); }
+  .stat .stat-lbl { font-size: 11px; color: var(--text-light); margin-top: 1px; }
+
+  /* SECTION HEADER */
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1rem; }
+  .section-header h2 { font-size: 18px; font-weight: 500; }
+  .section-header .count { font-family: var(--font-mono); font-size: 12px; color: var(--text-light); }
+
+  /* FILE GRID */
+  .files-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; }
+  .files-list { display: flex; flex-direction: column; gap: 4px; }
+
+  /* FILE CARD */
+  .file-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 1rem; cursor: pointer;
+    transition: all 0.15s; position: relative;
+  }
+  .file-card:hover { border-color: var(--border-hover); box-shadow: 0 2px 8px rgba(0,0,0,0.07); transform: translateY(-1px); }
+  .file-card.is-folder { border-left: 3px solid var(--accent); }
+  .file-card .file-icon { font-size: 26px; margin-bottom: 10px; display: block; }
+  .file-card .file-name { font-size: 13px; font-weight: 500; word-break: break-word; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .file-card .file-meta { font-family: var(--font-mono); font-size: 10px; color: var(--text-light); margin-top: 8px; }
+  .file-card .open-btn { position: absolute; top: 8px; right: 8px; opacity: 0; transition: opacity 0.15s; padding: 3px 8px; font-size: 11px; }
+  .file-card:hover .open-btn { opacity: 1; }
+
+  /* FILE ROW */
+  .file-row { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.12s; }
+  .file-row:hover { border-color: var(--border-hover); background: var(--bg); }
+  .file-row .file-icon { font-size: 18px; flex-shrink: 0; }
+  .file-row .file-name { flex: 1; font-size: 14px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .file-row .file-badge { font-family: var(--font-mono); font-size: 10px; padding: 2px 7px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-light); background: var(--bg); flex-shrink: 0; }
+  .file-row .file-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-light); flex-shrink: 0; width: 90px; text-align: right; }
+  .file-row .open-btn { opacity: 0; transition: opacity 0.12s; flex-shrink: 0; padding: 3px 8px; font-size: 11px; }
+  .file-row:hover .open-btn { opacity: 1; }
+
+  /* EMPTY / LOADING */
+  .state-box { padding: 3rem; text-align: center; color: var(--text-muted); }
+  .state-box .ico { font-size: 36px; margin-bottom: 1rem; opacity: 0.4; display: block; }
+  .state-box p { font-size: 14px; }
+  .spin { animation: spin 1s linear infinite; display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* EXCLUDED BADGE */
+  .excl-note { font-family: var(--font-mono); font-size: 11px; color: var(--text-light); background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 2px 10px; display: inline-block; margin-bottom: 1rem; }
+
+  @media (max-width: 700px) { .sidebar { display: none; } .main { padding: 1rem; } .header { padding: 0 1rem; } }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-brand">
+    <h1>Archivio Universitario di Biologia</h1>
+    <span id="header-sub">UniFi</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="view-toggle">
+      <button class="icon-btn active" id="btn-grid" title="Griglia" onclick="setView('grid')">⊞</button>
+      <button class="icon-btn" id="btn-list" title="Lista" onclick="setView('list')">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-label">Semestri</div>
+    <ul class="nav-list" id="nav-list">
+      <li class="nav-item active" id="nav-root" onclick="navRoot()">
+        <span class="ni">🏠</span> Tutti i semestri
+      </li>
+    </ul>
+  </nav>
+
+  <main class="main">
+    <div class="breadcrumb" id="breadcrumb">
+      <span onclick="navRoot()">🏠 UniFi</span>
+    </div>
+
+    <div class="stat-bar" id="stat-bar">
+      <div class="stat"><div class="stat-val" id="s-folders">—</div><div class="stat-lbl">Cartelle</div></div>
+      <div class="stat"><div class="stat-val" id="s-files">—</div><div class="stat-lbl">File</div></div>
+      <div class="stat"><div class="stat-val" id="s-pdfs">—</div><div class="stat-lbl">PDF</div></div>
+    </div>
+
+    <div class="section-header">
+      <h2 id="section-title">Caricamento…</h2>
+      <span class="count" id="section-count"></span>
+    </div>
+
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="Cerca file…" oninput="render()" />
+        </div>
+        <select class="filter-select" id="type-filter" onchange="render()">
+          <option value="">Tutti i tipi</option>
+          <option value="folder">Cartelle</option>
+          <option value="pdf">PDF</option>
+          <option value="pptx">Presentazioni</option>
+          <option value="docx">Documenti</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="file-container">
+      <div class="state-box"><span class="ico spin">⟳</span><p>Caricamento file…</p></div>
+    </div>
+  </main>
+</div>
+
+<script>
+const API_KEY = 'AIzaSyCK1qxkszf-Zvwovt2QgYzru4cIkkIBVdE';
+const ROOT_ID = '14WaurkHwQIuqCs7cPN-nNYLlax0xpfRD';
+const EXCLUDED = ['documenti'];
+
+let currentId = ROOT_ID, stack = [], allItems = [], currentView = 'grid';
+let rootFolders = [];
+
+async function fetchItems(folderId) {
+  let items = [], pageToken = '';
+  do {
+    const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&fields=nextPageToken,files(id,name,mimeType,size,modifiedTime)&orderBy=folder,name&pageSize=200&key=${API_KEY}${pageToken ? '&pageToken='+pageToken : ''}`;
+    const res = await fetch(url);
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || res.status); }
+    const data = await res.json();
+    items = items.concat(data.files || []);
+    pageToken = data.nextPageToken || '';
+  } while (pageToken);
+  return items.filter(f => !EXCLUDED.includes(f.name.toLowerCase()));
+}
+
+async function loadFolder(id, name) {
+  document.getElementById('file-container').innerHTML = `<div class="state-box"><span class="ico spin">⟳</span><p>Caricamento…</p></div>`;
+  try {
+    allItems = await fetchItems(id);
+    currentId = id;
+    updateBreadcrumb(name);
+    updateStats(allItems);
+    if (id === ROOT_ID) {
+      rootFolders = allItems.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
+      buildSidebar(rootFolders);
+      document.getElementById('section-title').textContent = 'Tutti i semestri';
+    } else {
+      document.getElementById('section-title').textContent = name || 'Cartella';
+    }
+    render();
+  } catch(e) {
+    document.getElementById('file-container').innerHTML = `<div class="state-box"><span class="ico">⚠️</span><p>Errore: ${e.message}<br><small>Assicurati che la cartella sia pubblica su Drive.</small></p></div>`;
+  }
+}
+
+function render() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const type = document.getElementById('type-filter').value;
+  const filtered = allItems.filter(f => {
+    if (!f.name.toLowerCase().includes(q)) return false;
+    if (!type) return true;
+    if (type === 'folder') return f.mimeType === 'application/vnd.google-apps.folder';
+    if (type === 'pdf') return f.mimeType === 'application/pdf';
+    if (type === 'pptx') return f.mimeType?.includes('presentation') || /\.pptx?$/i.test(f.name);
+    if (type === 'docx') return f.mimeType?.includes('document') || /\.docx?$/i.test(f.name);
+    return true;
+  });
+  document.getElementById('section-count').textContent = filtered.length + ' elementi';
+  const cont = document.getElementById('file-container');
+  if (!filtered.length) { cont.innerHTML = `<div class="state-box"><span class="ico">📂</span><p>Nessun file trovato</p></div>`; return; }
+  if (currentView === 'grid') {
+    cont.innerHTML = `<div class="files-grid">${filtered.map(cardHTML).join('')}</div>`;
+  } else {
+    cont.innerHTML = `<div class="files-list">${filtered.map(rowHTML).join('')}</div>`;
+  }
+}
+
+function cardHTML(f) {
+  const isF = f.mimeType === 'application/vnd.google-apps.folder';
+  const click = isF ? `enterFolder('${f.id}','${eq(f.name)}')` : `openFile('${f.id}')`;
+  return `<div class="file-card ${isF?'is-folder':''}" onclick="${click}">
+    <span class="file-icon">${icon(f)}</span>
+    <div class="file-name">${eh(f.name)}</div>
+    <div class="file-meta">${f.size ? fmt(+f.size) : ''} ${f.modifiedTime ? '· '+rel(f.modifiedTime) : ''}</div>
+    ${!isF ? `<button class="open-btn" onclick="event.stopPropagation();openFile('${f.id}')">Apri ↗</button>` : ''}
+  </div>`;
+}
+
+function rowHTML(f) {
+  const isF = f.mimeType === 'application/vnd.google-apps.folder';
+  const ext = f.name.includes('.') ? f.name.split('.').pop().toUpperCase() : (isF ? 'DIR' : '—');
+  const click = isF ? `enterFolder('${f.id}','${eq(f.name)}')` : `openFile('${f.id}')`;
+  return `<div class="file-row" onclick="${click}">
+    <span class="file-icon">${icon(f)}</span>
+    <span class="file-name">${eh(f.name)}</span>
+    <span class="file-badge">${ext}</span>
+    <span class="file-date">${f.modifiedTime ? rel(f.modifiedTime) : '—'}</span>
+    ${!isF ? `<button class="open-btn" onclick="event.stopPropagation();openFile('${f.id}')">Apri ↗</button>` : ''}
+  </div>`;
+}
+
+function updateStats(items) {
+  const folders = items.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
+  const files = items.filter(f => f.mimeType !== 'application/vnd.google-apps.folder');
+  const pdfs = files.filter(f => f.mimeType === 'application/pdf');
+  document.getElementById('s-folders').textContent = folders.length;
+  document.getElementById('s-files').textContent = files.length;
+  document.getElementById('s-pdfs').textContent = pdfs.length;
+}
+
+function buildSidebar(folders) {
+  const ul = document.getElementById('nav-list');
+  ul.innerHTML = `<li class="nav-item active" id="nav-root" onclick="navRoot()"><span class="ni">🏠</span> Tutti i semestri</li>` +
+    folders.map(f => `<li class="nav-item" onclick="enterFolder('${f.id}','${eq(f.name)}')" title="${eh(f.name)}"><span class="ni">📅</span> ${eh(f.name.length>20?f.name.slice(0,18)+'…':f.name)}</li>`).join('');
+}
+
+function updateBreadcrumb(name) {
+  const bc = document.getElementById('breadcrumb');
+  let html = `<span onclick="navRoot()">🏠 UniFi</span>`;
+  stack.forEach((item, i) => { html += `<span class="sep">›</span><span onclick="navStack(${i})">${eh(item.name)}</span>`; });
+  if (name) html += `<span class="sep">›</span><span class="current">${eh(name)}</span>`;
+  bc.innerHTML = html;
+  document.getElementById('header-sub').textContent = name || 'UniFi';
+}
+
+function enterFolder(id, name) {
+  stack.push({ id: currentId, name: document.getElementById('header-sub').textContent });
+  loadFolder(id, name);
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+}
+
+function navRoot() {
+  stack = [];
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('nav-root')?.classList.add('active');
+  loadFolder(ROOT_ID);
+}
+
+function navStack(i) {
+  const target = stack[i];
+  stack = stack.slice(0, i);
+  loadFolder(target.id, target.name);
+}
+
+function openFile(id) {
+  window.open(`https://drive.google.com/file/d/${id}/view`, '_blank');
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('btn-grid').classList.toggle('active', v === 'grid');
+  document.getElementById('btn-list').classList.toggle('active', v === 'list');
+  render();
+}
+
+function icon(f) {
+  const m = f.mimeType || '', n = f.name.toLowerCase();
+  if (m === 'application/vnd.google-apps.folder') return '📁';
+  if (m === 'application/pdf' || n.endsWith('.pdf')) return '📄';
+  if (m.includes('presentation') || /\.pptx?$/.test(n)) return '📊';
+  if (m.includes('spreadsheet') || /\.xlsx?$/.test(n)) return '📈';
+  if (m.includes('document') || /\.docx?$/.test(n)) return '📝';
+  if (m.includes('image') || /\.(jpg|jpeg|png|gif|webp)$/.test(n)) return '🖼';
+  if (/\.(zip|rar|7z)$/.test(n)) return '🗜';
+  if (/\.(mp4|mov|avi)$/.test(n)) return '🎬';
+  return '📎';
+}
+
+function fmt(b) {
+  if (!b) return '—';
+  if (b < 1024) return b + ' B';
+  if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+  if (b < 1073741824) return (b/1048576).toFixed(1) + ' MB';
+  return (b/1073741824).toFixed(2) + ' GB';
+}
+
+function rel(iso) {
+  const d = Math.floor((Date.now() - new Date(iso)) / 86400000);
+  if (d === 0) return 'oggi'; if (d === 1) return 'ieri';
+  if (d < 30) return d + ' gg fa'; if (d < 365) return Math.floor(d/30) + ' mesi fa';
+  return Math.floor(d/365) + ' anni fa';
+}
+
+function eh(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function eq(s) { return s.replace(/'/g,"\\'"); }
+
+loadFolder(ROOT_ID);
+</script>
+</body>
+</html>
