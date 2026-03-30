@@ -211,8 +211,8 @@
       <span class="toggle-icon">🌙</span>
     </div>
     <div class="view-toggle">
-      <button class="icon-btn active" id="btn-grid" title="Griglia" onclick="setView('grid')">⊞</button>
-      <button class="icon-btn" id="btn-list" title="Lista" onclick="setView('list')">☰</button>
+      <button class="icon-btn active" id="btn-list" title="Lista" onclick="setView('list')">☰</button>
+      <button class="icon-btn" id="btn-grid" title="Griglia" onclick="setView('grid')">⊞</button>
     </div>
   </div>
 </header>
@@ -272,7 +272,7 @@ const ROOT_ID = '14WaurkHwQIuqCs7cPN-nNYLlax0xpfRD';
 // Aggiungi qui nomi di cartelle da nascondere (minuscolo)
 const EXCLUDED = ['documenti', 'privato']; 
 
-let currentId = ROOT_ID, stack = [], allItems = [], currentView = 'grid';
+let currentId = ROOT_ID, stack = [], allItems = [], currentView = 'list';
 
 // --- TEMA E VISITE ---
 function toggleTheme() {
