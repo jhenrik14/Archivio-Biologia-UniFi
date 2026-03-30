@@ -39,19 +39,15 @@
     --accent-muted: #5580ae;
   }
 
-  /* STRUTTURA APPLICATIVO (FIX EFFETTO MOLLA) */
-  html, body {
-    height: 100vh;
-    overflow: hidden; /* Impedisce lo scroll della pagina intera */
-  }
-
+  /* LAYOUT FISSO ANTI-MOLLA */
+  html, body { height: 100vh; overflow: hidden; }
   body {
     font-family: var(--font-serif);
     background: var(--bg);
     color: var(--text);
     display: flex;
     flex-direction: column;
-    transition: background 0.2s;
+    transition: background 0.2s, color 0.2s;
   }
 
   .header {
@@ -66,96 +62,45 @@
     z-index: 100;
   }
 
-  .layout {
-    flex: 1;
-    display: flex;
-    max-width: 1440px;
-    margin: 0 auto;
-    width: 100%;
-    overflow: hidden; /* Blocca l'espansione del layout */
-  }
+  .layout { flex: 1; display: flex; width: 100%; max-width: 1400px; margin: 0 auto; overflow: hidden; }
 
   .sidebar {
-    width: 230px;
-    flex-shrink: 0;
-    padding: 1.5rem 1rem;
-    border-right: 1px solid var(--border);
-    background: var(--surface);
-    overflow-y: auto;
-    height: 100%;
+    width: 220px; flex-shrink: 0; padding: 1.5rem 1rem;
+    border-right: 1px solid var(--border); background: var(--surface);
+    height: 100%; overflow-y: auto;
   }
 
-  .main {
-    flex: 1;
-    padding: 1.5rem 2rem;
-    min-width: 0;
-    height: 100%;
-    overflow-y: scroll; /* FORZA la barra laterale per evitare spostamenti laterali */
-    display: flex;
-    flex-direction: column;
+  .main { 
+    flex: 1; padding: 1.5rem 2rem; min-width: 0; height: 100%; 
+    overflow-y: scroll; /* Forza binario barra */
   }
 
-  .footer {
-    flex-shrink: 0;
-    padding: 12px 20px;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    text-align: center;
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  /* COMPONENTI */
-  .header-logo { height: 38px; margin-right: 12px; border-radius: 50%; }
+  /* STILE ORIGINALE */
+  .header-logo { height: 38px; margin-right: 12px; display: block; }
   .header-brand { display: flex; align-items: center; gap: 4px; }
   .header-brand h1 { font-size: 17px; font-weight: 500; line-height: 1.2; }
   .header-brand span { font-family: var(--font-mono); font-size: 11px; color: var(--text-light); text-transform: uppercase; }
 
   .breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-light);
-    margin-bottom: 1.25rem;
-    white-space: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    flex-shrink: 0;
+    display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px;
+    color: var(--text-light); margin-bottom: 1.25rem; white-space: nowrap; overflow-x: auto; scrollbar-width: none;
   }
   .breadcrumb::-webkit-scrollbar { display: none; }
-  .breadcrumb span { cursor: pointer; transition: color 0.12s; }
-  .breadcrumb span:hover { color: var(--accent); }
 
-  .stat-bar { display: flex; gap: 1rem; padding: 10px 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1.5rem; flex-shrink: 0; }
+  .stat-bar { display: flex; gap: 1rem; padding: 10px 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1.5rem; }
   .stat { text-align: center; flex: 1; }
   .stat .stat-val { font-family: var(--font-mono); font-size: 17px; font-weight: 500; color: var(--accent); }
 
-  #file-container {
-    flex: 1;
-    min-height: 450px; /* PRENOTA lo spazio per evitare che il footer salti su */
-    display: flex;
-    flex-direction: column;
-  }
-
-  .state-box {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 4rem 0;
-  }
+  #file-container { min-height: 500px; display: flex; flex-direction: column; }
+  .state-box { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem; }
 
   .file-row { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.12s; margin-bottom: 4px; }
   .file-row:hover { border-color: var(--border-hover); background: var(--bg); }
-  .file-row .file-name { flex: 1; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .file-name { flex: 1; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+  /* FOOTER SOTTILE */
+  .footer { flex-shrink: 0; padding: 12px 20px; background: var(--surface); border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--text-muted); }
   .email-inline { color: var(--accent); text-decoration: none; font-family: var(--font-mono); font-weight: 500; padding: 2px 6px; border-radius: 4px; background: var(--accent-light); }
-  
-  .spin { animation: spin 1s linear infinite; display: inline-block; }
-  @keyframes spin { to { transform: rotate(360deg); } }
 
   .theme-toggle { display: flex; align-items: center; gap: 7px; }
   .toggle-track { width: 42px; height: 22px; border-radius: 11px; background: var(--border); position: relative; cursor: pointer; }
@@ -163,7 +108,13 @@
   body.dark .toggle-track { background: var(--accent); }
   body.dark .toggle-track::after { transform: translateX(20px); background: #fff; }
 
-  @media (max-width: 850px) { .sidebar { display: none; } .main { padding: 1rem; } }
+  button.icon-btn { padding: 6px 8px; font-size: 14px; cursor: pointer; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); }
+  button.icon-btn.active { background: var(--bg); border-color: var(--accent); }
+
+  .spin { animation: spin 1s linear infinite; display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 700px) { .sidebar { display: none; } }
 </style>
 </head>
 <body>
@@ -176,33 +127,28 @@
       <span id="header-sub">UniFi</span>
     </div>
   </div>
-  <div class="header-right">
+  <div class="header-right" style="display:flex; align-items:center; gap:15px;">
     <div class="theme-toggle" onclick="toggleTheme()">
       <span class="toggle-icon">☀️</span>
       <div class="toggle-track"></div>
       <span class="toggle-icon">🌙</span>
     </div>
-    <div class="view-toggle" style="margin-left:15px; display: flex; gap:5px;">
-      <button id="btn-list" style="padding: 5px 10px;" onclick="setView('list')">☰</button>
-      <button id="btn-grid" style="padding: 5px 10px;" onclick="setView('grid')">⊞</button>
+    <div class="view-toggle">
+      <button class="icon-btn active" id="btn-list" onclick="setView('list')">☰</button>
+      <button class="icon-btn" id="btn-grid" onclick="setView('grid')">⊞</button>
     </div>
   </div>
 </header>
 
 <div class="layout">
   <nav class="sidebar">
-    <div class="sidebar-label">Navigazione</div>
     <ul class="nav-list" id="nav-list">
-      <li class="nav-item active" id="nav-root" onclick="navRoot()">
-        <span class="ni">🏠</span> Tutti i semestri
-      </li>
+      <li class="nav-item active" id="nav-root" onclick="navRoot()">🏠 Tutti i semestri</li>
     </ul>
   </nav>
 
   <main class="main">
-    <div class="breadcrumb" id="breadcrumb">
-      <span onclick="navRoot()">🏠 UniFi</span>
-    </div>
+    <div class="breadcrumb" id="breadcrumb"><span>🏠 UniFi</span></div>
     
     <div class="stat-bar">
       <div class="stat"><div class="stat-val" id="s-folders">—</div><div class="stat-lbl">Cartelle</div></div>
@@ -211,27 +157,27 @@
       <div class="stat"><div class="stat-val" id="s-visits">—</div><div class="stat-lbl">Visite</div></div>
     </div>
 
-    <div class="toolbar" style="display:flex; gap:10px; margin-bottom:1.5rem;">
-      <input type="text" id="search-input" placeholder="Cerca nell'archivio..." oninput="render()" style="flex:1; padding:8px; border:1px solid var(--border); border-radius:var(--radius);">
+    <div class="toolbar" style="display:flex; gap:10px; margin-bottom:1.25rem;">
+      <input type="text" id="search-input" placeholder="Cerca file..." oninput="render()" style="flex:1; padding:8px; border:1px solid var(--border); border-radius:var(--radius);">
       <select id="type-filter" onchange="render()" style="padding:8px; border:1px solid var(--border); border-radius:var(--radius);">
-        <option value="">Tutti i file</option>
-        <option value="pdf">PDF</option>
+        <option value="">Tutti i tipi</option>
         <option value="folder">Cartelle</option>
+        <option value="pdf">PDF</option>
       </select>
     </div>
 
     <div id="file-container">
-      <div class="state-box"><span class="ico spin">⟳</span><p>Caricamento file…</p></div>
+      <div class="state-box"><span class="ico spin">⟳</span><p>Caricamento...</p></div>
     </div>
   </main>
 </div>
 
 <footer class="footer">
-  <div class="footer-content" style="display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap;">
-    <span>Hai materiale? Scrivici:</span>
+  <div class="footer-content" style="display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap;">
+    <span>Hai materiale da condividere? Scrivici a:</span>
     <a href="mailto:archivio_biologia_free@proton.me?subject=Invio Materiale" class="email-inline">archivio_biologia_free@proton.me</a>
-    <span style="opacity:0.4">|</span>
-    <span style="font-style:italic; opacity:0.7">Solo scopo didattico.</span>
+    <span style="opacity:0.3">|</span>
+    <span style="opacity:0.7; font-style:italic;">Materiale anonimo a scopo didattico.</span>
   </div>
 </footer>
 
@@ -244,38 +190,34 @@ function toggleTheme() {
   const dark = document.body.classList.toggle('dark');
   localStorage.setItem('theme', dark ? 'dark' : 'light');
 }
-
 (function() {
   const s = localStorage.getItem('theme');
-  if (s === 'dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches))
-    document.body.classList.add('dark');
+  if (s === 'dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.body.classList.add('dark');
 })();
 
 async function updateVisitCounter() {
   try {
     const res = await fetch(`https://api.counterapi.dev/v1/jhenrik14_biologia/visits/up`);
-    const data = await res.json();
-    if (data.count) document.getElementById('s-visits').textContent = data.count.toLocaleString();
-  } catch (e) { document.getElementById('s-visits').textContent = "—"; }
+    const d = await res.json();
+    if(d.count) document.getElementById('s-visits').textContent = d.count.toLocaleString();
+  } catch(e) { document.getElementById('s-visits').textContent = "—"; }
 }
 
-async function fetchItems(folderId) {
-  let items = [], pageToken = '';
+async function fetchItems(id) {
+  let items = [], token = '';
   do {
-    const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&fields=nextPageToken,files(id,name,mimeType,size,modifiedTime)&orderBy=folder,name&pageSize=200&key=${API_KEY}${pageToken?'&pageToken='+pageToken:''}`;
+    const url = `https://www.googleapis.com/drive/v3/files?q='${id}'+in+parents+and+trashed=false&fields=nextPageToken,files(id,name,mimeType,size,modifiedTime)&orderBy=folder,name&pageSize=200&key=${API_KEY}${token?'&pageToken='+token:''}`;
     const res = await fetch(url);
     const d = await res.json();
     items = items.concat(d.files || []);
-    pageToken = d.nextPageToken || '';
-  } while (pageToken);
+    token = d.nextPageToken || '';
+  } while(token);
   return items.filter(f => !f.name.startsWith('_'));
 }
 
 async function loadFolder(id, name) {
-  const container = document.getElementById('file-container');
-  // Il contenitore NON viene svuotato subito per evitare il salto bianco totale, 
-  // ma mostra l'overlay di caricamento sopra l'altezza minima definita nel CSS.
-  container.innerHTML = `<div class="state-box"><span class="ico spin">⟳</span><p>Accesso a ${name}...</p></div>`;
+  const cont = document.getElementById('file-container');
+  cont.innerHTML = `<div class="state-box"><span class="ico spin">⟳</span><p>Caricamento...</p></div>`;
   try {
     allItems = await fetchItems(id);
     currentId = id;
@@ -283,99 +225,85 @@ async function loadFolder(id, name) {
     updateStats(allItems);
     if (id === ROOT_ID) buildSidebar(allItems.filter(f => f.mimeType.includes('folder')));
     render();
-  } catch(e) {
-    container.innerHTML = `<div class="state-box">⚠️ Errore caricamento</div>`;
-  }
+  } catch(e) { cont.innerHTML = `<div class="state-box">⚠️ Errore</div>`; }
+}
+
+function buildSidebar(folders) {
+  const list = document.getElementById('nav-list');
+  let html = `<li class="nav-item active" id="nav-root" onclick="navRoot()">🏠 Tutti i semestri</li>`;
+  folders.sort((a,b) => a.name.localeCompare(b.name));
+  let lastYear = null;
+  folders.forEach(f => {
+    const match = f.name.match(/\d/);
+    const year = match ? match[0] : null;
+    if (year && year !== lastYear) {
+      lastYear = year;
+      html += `<div style="margin:18px 10px 8px; border-top:1px solid var(--border); padding-top:10px; font-family:var(--font-mono); font-size:10px; color:var(--text-light); text-transform:uppercase;">${year}° Anno</div>`;
+    }
+    html += `<li class="nav-item" style="padding:7px 10px; cursor:pointer;" onclick="jumpToFolder('${f.id}','${f.name.replace(/'/g,"\\'")}')">📅 ${f.name.length>22?f.name.slice(0,20)+'…':f.name}</li>`;
+  });
+  list.innerHTML = html;
 }
 
 function render() {
   const q = document.getElementById('search-input').value.toLowerCase();
   const type = document.getElementById('type-filter').value;
   const filtered = allItems.filter(f => {
-    if (!f.name.toLowerCase().includes(q)) return false;
-    if (type === 'pdf') return f.mimeType === 'application/pdf';
-    if (type === 'folder') return f.mimeType.includes('folder');
+    if(!f.name.toLowerCase().includes(q)) return false;
+    if(type==='pdf') return f.mimeType==='application/pdf';
+    if(type==='folder') return f.mimeType.includes('folder');
     return true;
   });
-  
   const cont = document.getElementById('file-container');
-  if (!filtered.length) { cont.innerHTML = `<div class="state-box">Nessun file trovato</div>`; return; }
-  
-  cont.innerHTML = currentView === 'grid' 
-    ? `<div class="files-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:15px;">${filtered.map(cardHTML).join('')}</div>`
-    : `<div class="files-list">${filtered.map(rowHTML).join('')}</div>`;
+  if(!filtered.length) { cont.innerHTML = `<div class="state-box">Nessun file</div>`; return; }
+  cont.innerHTML = currentView === 'grid' ? `<div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:15px;">${filtered.map(cardHTML).join('')}</div>` : `<div class="files-list">${filtered.map(rowHTML).join('')}</div>`;
 }
 
 function rowHTML(f) {
   const isF = f.mimeType.includes('folder');
   const click = isF ? `enterFolder('${f.id}','${f.name.replace(/'/g,"\\'")}')` : `openFile('${f.id}')`;
-  return `<div class="file-row" onclick="${click}">
-    <span>${isF?'📁':'📄'}</span>
-    <span class="file-name">${f.name}</span>
-    <span style="font-size:10px; opacity:0.5">${f.size?Math.round(f.size/1024)+'KB':''}</span>
-  </div>`;
+  return `<div class="file-row" onclick="${click}"><span>${isF?'📁':'📄'}</span><span class="file-name">${f.name}</span></div>`;
 }
 
 function cardHTML(f) {
   const isF = f.mimeType.includes('folder');
   const click = isF ? `enterFolder('${f.id}','${f.name.replace(/'/g,"\\'")}')` : `openFile('${f.id}')`;
-  return `<div style="border:1px solid var(--border); padding:15px; border-radius:10px; cursor:pointer; background:var(--surface);" onclick="${click}">
-    <div style="font-size:24px; margin-bottom:10px;">${isF?'📁':'📄'}</div>
-    <div style="font-size:13px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${f.name}</div>
-  </div>`;
+  return `<div style="border:1px solid var(--border); padding:15px; border-radius:var(--radius); cursor:pointer; background:var(--surface);" onclick="${click}"><div>${isF?'📁':'📄'}</div><div style="font-size:13px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${f.name}</div></div>`;
 }
 
 function updateBreadcrumb(name) {
   let html = `<span onclick="navRoot()">🏠 UniFi</span>`;
   stack.forEach((item, i) => { if(item.id !== ROOT_ID) html += ` <span style="opacity:0.3">›</span> <span onclick="navStack(${i})">${item.name}</span>`; });
-  if (id_is_not_root(currentId)) html += ` <span style="opacity:0.3">›</span> <span style="font-weight:500">${name}</span>`;
+  if(currentId !== ROOT_ID) html += ` <span style="opacity:0.3">›</span> <span style="color:var(--text-muted)">${name}</span>`;
   document.getElementById('breadcrumb').innerHTML = html;
 }
 
-function id_is_not_root(id) { return id !== ROOT_ID; }
-
 function enterFolder(id, name) {
   stack.push({ id: currentId, name: document.getElementById('header-sub').textContent });
-  const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?f=' + id;
-  window.history.pushState({ folderId: id, folderName: name, stack: [...stack] }, "", newUrl);
+  window.history.pushState({ folderId: id, folderName: name, stack: [...stack] }, "", '?f='+id);
   loadFolder(id, name);
 }
 
 function jumpToFolder(id, name) {
   stack = [];
-  const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?f=' + id;
-  window.history.pushState({ folderId: id, folderName: name, stack: [] }, "", newUrl);
+  window.history.pushState({ folderId: id, folderName: name, stack: [] }, "", '?f='+id);
   loadFolder(id, name);
 }
 
-function navRoot() {
-  stack = [];
-  window.history.pushState({}, "", window.location.pathname);
-  loadFolder(ROOT_ID, "UniFi");
-}
-
-function navStack(i) {
-  const t=stack[i]; stack=stack.slice(0,i);
-  loadFolder(t.id, t.name);
-}
-
-function buildSidebar(folders) {
-  const container = document.getElementById('nav-list');
-  let html = `<li class="nav-item" onclick="navRoot()">🏠 Home</li>`;
-  folders.sort((a,b)=>a.name.localeCompare(b.name)).forEach(f => {
-    html += `<li class="nav-item" style="padding:8px; cursor:pointer;" onclick="jumpToFolder('${f.id}','${f.name.replace(/'/g,"\\'")}')">📅 ${f.name}</li>`;
-  });
-  container.innerHTML = html;
-}
-
+function navRoot() { stack = []; window.history.pushState({}, "", window.location.pathname); loadFolder(ROOT_ID, "UniFi"); }
+function navStack(i) { const t=stack[i]; stack=stack.slice(0,i); loadFolder(t.id, t.name); }
 function updateStats(items) {
   document.getElementById('s-folders').textContent = items.filter(f=>f.mimeType.includes('folder')).length;
   document.getElementById('s-files').textContent = items.filter(f=>!f.mimeType.includes('folder')).length;
   document.getElementById('s-pdfs').textContent = items.filter(f=>f.mimeType==='application/pdf').length;
 }
-
+function setView(v) { 
+  currentView=v; 
+  document.getElementById('btn-list').classList.toggle('active', v==='list');
+  document.getElementById('btn-grid').classList.toggle('active', v==='grid');
+  render(); 
+}
 function openFile(id) { window.open(`https://drive.google.com/file/d/${id}/view`,'_blank'); }
-function setView(v) { currentView=v; render(); }
 
 (function() {
   updateVisitCounter();
