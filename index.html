@@ -392,12 +392,11 @@ function toggleTheme() {
 
 async function updateVisitCounter() {
   try {
-    // Nota: countapi.xyz è un servizio esterno gratuito
-    const res = await fetch(`https://api.countapi.xyz/hit/jhenrik14.github.io/archivio-biologia`);
+    const res = await fetch('https://archivio-biologia.goatcounter.com/counter//index.html.json');
     const data = await res.json();
-    if (data.value) document.getElementById('s-visits').textContent = data.value.toLocaleString();
-  } catch (e) {
-    document.getElementById('s-visits').textContent = "1.2k+"; // Fallback estetico se l'API è giù
+    if (data.count) document.getElementById('s-visits').textContent = data.count.toLocaleString('it-IT');
+  } catch(e) {
+    document.getElementById('s-visits').textContent = '—';
   }
 }
 
@@ -616,16 +615,10 @@ function rel(iso) {
 function eh(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function eq(s) { return s.replace(/'/g,"\\'"); }
 
-// --- AVVIO ---
-(function() {
-  updateVisitCounter();
-  const params = new URLSearchParams(window.location.search);
-  const folderId = params.get('f');
-  if (folderId && folderId !== ROOT_ID) {
-    loadFolder(folderId, "Caricamento...");
-  } else {
-    loadFolder(ROOT_ID, "UniFi");
-  }
+<script data-goatcounter="https://archiviobiologia.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+
 })();
 </script>
 </body>
