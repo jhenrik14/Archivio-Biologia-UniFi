@@ -710,8 +710,13 @@ function lbxShow(i) {
       const iframe = document.createElement('iframe');
       iframe.src = `https://drive.google.com/file/d/${f.id}/preview`;
       iframe.allow = 'autoplay';
-      iframe.onload = () => { wrap.innerHTML = ''; wrap.appendChild(iframe); };
-      setTimeout(() => { if (wrap.querySelector('.lbx-loading')) { wrap.innerHTML = ''; wrap.appendChild(iframe); } }, 200);
+      iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;opacity:0;position:absolute;inset:0;';
+      wrap.appendChild(iframe);
+      iframe.onload = () => {
+        wrap.querySelector('.lbx-loading')?.remove();
+        iframe.style.opacity = '1';
+        iframe.style.position = 'static';
+      };
     }
   } else {
     const ext = f.name.includes('.') ? f.name.split('.').pop().toUpperCase() : '—';
