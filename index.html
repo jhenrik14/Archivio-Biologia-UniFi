@@ -678,11 +678,12 @@ let lbxIndex = 0;
 let lbxItems = [];
 
 function openFile(id) {
-  // Trova l'indice del file tra quelli correnti (non cartelle)
   lbxItems = allItems.filter(f => f.mimeType !== 'application/vnd.google-apps.folder');
   const idx = lbxItems.findIndex(f => f.id === id);
   lbxIndex = idx >= 0 ? idx : 0;
-  document.getElementById('lbx').classList.add('open');
+  const lbx = document.getElementById('lbx');
+  lbx.classList.add('open');
+  lbx.focus(); // <-- questa è la riga chiave
   lbxShow(lbxIndex);
 }
 
@@ -728,10 +729,9 @@ document.getElementById('lbx').addEventListener('click', e => {
 });
 
 // Tastiera
-document.addEventListener('keydown', e => {
-  if (!document.getElementById('lbx').classList.contains('open')) return;
-  if (e.key === 'ArrowLeft') lbxNav(-1);
-  if (e.key === 'ArrowRight') lbxNav(1);
+document.getElementById('lbx').addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') { e.preventDefault(); lbxNav(-1); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); lbxNav(1); }
   if (e.key === 'Escape') closeLightbox();
   if (e.key === 'o' || e.key === 'O') window.open(`https://drive.google.com/file/d/${lbxItems[lbxIndex].id}/view`, '_blank');
 });
@@ -817,7 +817,7 @@ function eq(s) { return s.replace(/'/g,"\\'"); }
   </div>
 </div>
 
- <div class="lbx-overlay" id="lbx">
+ <div class="lbx-overlay" id="lbx" tabindex="-1">
   <div class="lbx-header">
     <span class="lbx-title" id="lbx-title">—</span>
     <span class="lbx-counter" id="lbx-counter"></span>
