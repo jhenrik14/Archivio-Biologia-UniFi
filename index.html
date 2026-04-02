@@ -810,7 +810,7 @@ function rel(iso) {
   if(d<30) return d+' gg fa'; if(d<365) return Math.floor(d/30)+' mesi fa';
   return Math.floor(d/365)+' anni fa';
 }
-function eh(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function eh(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/[\u{1F300}-\u{1FFFF}]/gu, '').trim(); }
 function eq(s) { return s.replace(/'/g,"\\'"); }
 
 
