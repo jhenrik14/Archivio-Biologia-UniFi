@@ -683,7 +683,7 @@ function openFile(id) {
   lbxIndex = idx >= 0 ? idx : 0;
   const lbx = document.getElementById('lbx');
   lbx.classList.add('open');
-  lbx.focus(); // <-- questa è la riga chiave
+  lbx.focus();
   lbxShow(lbxIndex);
 }
 
@@ -693,12 +693,10 @@ function lbxShow(i) {
   document.getElementById('lbx-counter').textContent = (i + 1) + ' / ' + lbxItems.length;
   document.getElementById('lbx-prev').disabled = i === 0;
   document.getElementById('lbx-next').disabled = i === lbxItems.length - 1;
-
   const wrap = document.getElementById('lbx-frame-wrap');
   const previewable = f.mimeType === 'application/pdf' || f.mimeType?.includes('image');
 
-if (previewable) {
-    // Controlla se esiste già un iframe precariato
+  if (previewable) {
     const cached = document.getElementById('lbx-pre-' + f.id);
     if (cached) {
       wrap.innerHTML = '';
@@ -706,7 +704,7 @@ if (previewable) {
       iframe.id = '';
       iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
       wrap.appendChild(iframe);
-      cached.remove(); // rimuovi quello nascosto
+      cached.remove();
     } else {
       wrap.innerHTML = '<div class="lbx-loading"><div class="lbx-spinner"></div><span>Caricamento anteprima…</span></div>';
       const iframe = document.createElement('iframe');
@@ -715,8 +713,15 @@ if (previewable) {
       iframe.onload = () => { wrap.innerHTML = ''; wrap.appendChild(iframe); };
       setTimeout(() => { if (wrap.querySelector('.lbx-loading')) { wrap.innerHTML = ''; wrap.appendChild(iframe); } }, 200);
     }
- 
-   // Precarica i vicini in iframe nascosti
+  } else {
+    const ext = f.name.includes('.') ? f.name.split('.').pop().toUpperCase() : '—';
+    wrap.innerHTML = `<div class="lbx-no-preview">
+      <span class="ico">📄</span>
+      <span>Anteprima non disponibile per i file <strong>${ext}</strong></span>
+      <button class="lbx-open-ext" onclick="window.open('https://drive.google.com/file/d/${f.id}/view','_blank')">Apri in Google Drive ↗</button>
+    </div>`;
+  }
+
   lbxPreload(i - 1);
   lbxPreload(i + 1);
 }
@@ -725,7 +730,7 @@ function lbxPreload(i) {
   if (i < 0 || i >= lbxItems.length) return;
   const f = lbxItems[i];
   if (f.mimeType !== 'application/pdf' && !f.mimeType?.includes('image')) return;
-  if (document.getElementById('lbx-pre-' + f.id)) return; // già precariato
+  if (document.getElementById('lbx-pre-' + f.id)) return;
   const iframe = document.createElement('iframe');
   iframe.id = 'lbx-pre-' + f.id;
   iframe.src = `https://drive.google.com/file/d/${f.id}/preview`;
