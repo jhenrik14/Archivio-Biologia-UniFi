@@ -343,47 +343,7 @@ body {
 .lbx-footer { width: 100%; max-width: 1000px; display: flex; gap: 8px; padding: 0 16px 14px; align-items: center; justify-content: center; font-size: 12px; color: rgba(255,255,255,0.25); }
 .lbx-footer kbd { display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; padding: 2px 7px; font-size: 11px; color: rgba(255,255,255,0.45); font-family: monospace; }
 
-.readme-link {
-  margin: 25px 10px 10px 10px !important;
-  padding: 12px 15px !important;
-  background: rgba(255, 0, 0, 0.05); /* Uno sfondo rosso chiarissimo, quasi impercettibile */
-  border: 1.5px solid rgba(255, 0, 0, 0.2); /* Un bordo rosso sottile */
-  border-radius: 8px; /* Lo rende un bottoncino arrotondato */
-  color: #d32f2f !important; /* Un rosso scuro elegante per il testo */
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.readme-link:hover {
-  background: rgba(255, 0, 0, 0.1);
-  transform: translateY(-2px); /* Saltella leggermente quando ci vai sopra */
-  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.1);
-}
-
-/* Il pallino di notifica che pulsa */
-.readme-link::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  background-color: red;
-  border-radius: 50%;
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
-  animation: pulse-dot 1.5s infinite;
-}
-
-@keyframes pulse-dot {
-  0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
-}
-                
+ 
 </style>
 </head>
 <body>
@@ -704,9 +664,8 @@ function buildSidebar(folders) {
   // --- FINE CICLO SEMESTRI ---
 
   // 2. AGGIUNGIAMO IL README UNA VOLTA SOLA (FUORI DAL CICLO)
-// 2. AGGIUNGIAMO IL README UNA VOLTA SOLA (FUORI DAL CICLO)
   html += `
-    <li class="nav-item readme-btn" onclick="openReadme()">
+    <li class="nav-item" onclick="openReadme()" style="margin-top: 25px; border-top: 1px dashed var(--border); padding-top: 15px; color: var(--accent); font-weight: 600;">
       <span class="ni">📖</span> Leggi README / Info
     </li>`;
 
