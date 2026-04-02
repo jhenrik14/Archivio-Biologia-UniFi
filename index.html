@@ -697,20 +697,40 @@ function lbxShow(i) {
   const wrap = document.getElementById('lbx-frame-wrap');
   const previewable = f.mimeType === 'application/pdf' || f.mimeType?.includes('image');
 
-  if (previewable) {
-    wrap.innerHTML = '<div class="lbx-loading"><div class="lbx-spinner"></div><span>Caricamento anteprima…</span></div>';
-    const iframe = document.createElement('iframe');
-    iframe.src = `https://drive.google.com/file/d/${f.id}/preview`;
-    iframe.allow = 'autoplay';
-    setTimeout(() => { wrap.innerHTML = ''; wrap.appendChild(iframe); }, 150);
-  } else {
-    const ext = f.name.includes('.') ? f.name.split('.').pop().toUpperCase() : '—';
-    wrap.innerHTML = `<div class="lbx-no-preview">
-      <span class="ico">📄</span>
-      <span>Anteprima non disponibile per i file <strong>${ext}</strong></span>
-      <button class="lbx-open-ext" onclick="window.open('https://drive.google.com/file/d/${f.id}/view','_blank')">Apri in Google Drive ↗</button>
-    </div>`;
-  }
+if (previewable) {
+    // Controlla se esiste già un iframe precariato
+    const cached = document.getElementById('lbx-pre-' + f.id);
+    if (cached) {
+      wrap.innerHTML = '';
+      const iframe = cached.cloneNode();
+      iframe.id = '';
+      iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+      wrap.appendChild(iframe);
+      cached.remove(); // rimuovi quello nascosto
+    } else {
+      wrap.innerHTML = '<div class="lbx-loading"><div class="lbx-spinner"></div><span>Caricamento anteprima…</span></div>';
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://drive.google.com/file/d/${f.id}/preview`;
+      iframe.allow = 'autoplay';
+      iframe.onload = () => { wrap.innerHTML = ''; wrap.appendChild(iframe); };
+      setTimeout(() => { if (wrap.querySelector('.lbx-loading')) { wrap.innerHTML = ''; wrap.appendChild(iframe); } }, 200);
+    }
+ 
+   // Precarica i vicini in iframe nascosti
+  lbxPreload(i - 1);
+  lbxPreload(i + 1);
+}
+
+function lbxPreload(i) {
+  if (i < 0 || i >= lbxItems.length) return;
+  const f = lbxItems[i];
+  if (f.mimeType !== 'application/pdf' && !f.mimeType?.includes('image')) return;
+  if (document.getElementById('lbx-pre-' + f.id)) return; // già precariato
+  const iframe = document.createElement('iframe');
+  iframe.id = 'lbx-pre-' + f.id;
+  iframe.src = `https://drive.google.com/file/d/${f.id}/preview`;
+  iframe.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;';
+  document.body.appendChild(iframe);
 }
 
 function lbxNav(dir) {
