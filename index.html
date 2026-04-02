@@ -810,7 +810,31 @@ function rel(iso) {
   if(d<30) return d+' gg fa'; if(d<365) return Math.floor(d/30)+' mesi fa';
   return Math.floor(d/365)+' anni fa';
 }
-function eh(s) { if (!s) return ""; return s.replace(/\p{Extended_Pictographic}/gu, '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/[\u{1F300}-\u{1FFFF}]/gu, ' ').trim(); }
+
+ function eh(s) {
+  if (!s) return "";
+  let name = s;
+
+  // 1. RITAGLIO INTELLIGENTE
+  // Cerca "semestre" seguito da due numeri, un punto/trattino e altri due numeri.
+  // Mantiene tutto quello che c'è PRIMA (es. "LEZIONI 1.1") e l'anno stesso.
+  const regexSemestre = /(.*semestre\s+\d{2}[.\-]\d{2}).*/i;
+  
+  if (regexSemestre.test(name)) {
+    name = name.replace(regexSemestre, '$1');
+  }
+
+  // 2. PULIZIA EMOJI E SIMBOLI HTML
+  return name
+    .replace(/\p{Extended_Pictographic}/gu, '') 
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/\s\s+/g, ' ') // Trasforma doppi spazi in uno singolo
+    .trim();
+}
+ 
 function eq(s) { return s.replace(/'/g,"\\'"); }
 
 
