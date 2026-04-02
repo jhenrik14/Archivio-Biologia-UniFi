@@ -723,6 +723,18 @@ function closeLightbox() {
   document.getElementById('lbx-frame-wrap').innerHTML = '';
 }
 
+// --- AVVIO ---
+(function() {
+  updateVisitCounter();
+  const params = new URLSearchParams(window.location.search);
+  const folderId = params.get('f');
+  if (folderId && folderId !== ROOT_ID) {
+    loadFolder(folderId, "Caricamento...");
+  } else {
+    loadFolder(ROOT_ID, "UniFi");
+  }
+})();
+ 
 // Chiudi cliccando fuori
 document.getElementById('lbx').addEventListener('click', e => {
   if (e.target === document.getElementById('lbx')) closeLightbox();
@@ -771,17 +783,7 @@ function rel(iso) {
 function eh(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function eq(s) { return s.replace(/'/g,"\\'"); }
 
-// --- AVVIO ---
-(function() {
-  updateVisitCounter();
-  const params = new URLSearchParams(window.location.search);
-  const folderId = params.get('f');
-  if (folderId && folderId !== ROOT_ID) {
-    loadFolder(folderId, "Caricamento...");
-  } else {
-    loadFolder(ROOT_ID, "UniFi");
-  }
-})();
+
 </script>
 
 
