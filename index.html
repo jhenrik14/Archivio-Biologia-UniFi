@@ -285,6 +285,10 @@ body { display: flex; flex-direction: column; }
   gap: 1.5rem; text-align: center; padding: 2rem; display: none;
 }
 </style>
+
+  <script data-goatcounter="https://archiviobiologia.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+  
 </head>
 <body>
 
@@ -448,7 +452,7 @@ function toggleTheme() {
 async function updateVisitCounter() {
   try {
     const path = window.location.pathname || '/';
-    const res = await fetch(`https://archiviobiologia.goatcounter.com/counter/${encodeURIComponent(path)}.json`);
+    const res = await fetch(`https://archiviobiologia.goatcounter.com/counter/total.json`);
     if (!res.ok) throw new Error();
     const data = await res.json();
     const count = data.count || 0;
