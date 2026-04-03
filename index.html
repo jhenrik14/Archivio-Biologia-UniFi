@@ -462,7 +462,7 @@ async function updateVisitCounter() {
 
 // --- CARICA INDICE DA JSON ---
 async function loadIndex() {
-  const res = await fetch('index.json');
+  const res = await fetch('index.json?v=' + Date.now());
   if (!res.ok) throw new Error('index.json non trovato');
   fullIndex = await res.json();
 }
