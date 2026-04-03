@@ -580,7 +580,10 @@ function render() {
 }
 
 // --- HTML COMPONENTS ---
-function cleanName(s) { return s.replace(/[\u{1F300}-\u{1FFFF}]/gu, '').replace(/[\u2600-\u27BF]/g, '').trim(); }
+function cleanName(s) { return s.replace(/[\u{1F300}-\u{1FFFF}]/gu, '').replace(/[\u2600-\u27BF]/g, '').trim(); 
+                       const yearMatch = name.match(/.*?\d{2}\.\d{2}/);
+                       return yearMatch ? yearMatch[0].trim() : name;
+}
 
 function cardHTML(f) {
   const isF = f.mimeType === 'application/vnd.google-apps.folder';
