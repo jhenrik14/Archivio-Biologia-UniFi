@@ -7,8 +7,7 @@
 <link rel="icon" type="image/png" href="logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-
- .visit-counter {
+.visit-counter {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--text-muted);
@@ -21,15 +20,11 @@
   gap: 6px;
   transition: all 0.2s ease;
 }
+.visit-counter:hover { border-color: var(--accent); color: var(--accent); }
 
-.visit-counter:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
- .modal-overlay {
+.modal-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(3px);
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(3px);
   display: none; align-items: center; justify-content: center; z-index: 2000;
 }
 .modal-content {
@@ -42,7 +37,7 @@
   font-size: 24px; color: var(--text-muted); cursor: pointer;
 }
 
- .footer {
+.footer {
   flex-shrink: 0;
   padding: 12px 20px;
   background: var(--surface);
@@ -51,278 +46,208 @@
   font-size: 12px;
   color: var(--text-muted);
 }
-
-.footer-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
+.footer-content { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
 .email-inline {
-  color: var(--accent);
-  text-decoration: none;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: var(--accent-light);
-  transition: opacity 0.2s;
+  color: var(--accent); text-decoration: none; font-family: var(--font-mono);
+  font-weight: 500; padding: 2px 6px; border-radius: 4px;
+  background: var(--accent-light); transition: opacity 0.2s;
+}
+.footer-sep { color: var(--border); opacity: 0.5; }
+.footer-disclaimer { opacity: 0.7; font-style: italic; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --border: #e0ddd6;
+  --border-hover: #c8c4bb;
+  --text: #1a1916;
+  --text-muted: #706d66;
+  --text-light: #a09c94;
+  --accent: #2c4a7c;
+  --accent-light: #e8edf5;
+  --accent-muted: #6b88b5;
+  --font-serif: 'Lora', Georgia, serif;
+  --font-mono: 'DM Mono', monospace;
+  --radius: 6px;
+  --radius-lg: 10px;
 }
 
-.footer-sep {
-  color: var(--border);
-  opacity: 0.5;
-}
-
-.footer-disclaimer {
-  opacity: 0.7;
-  font-style: italic;
-}
-
- 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #f7f5f0;
-    --surface: #ffffff;
-    --border: #e0ddd6;
-    --border-hover: #c8c4bb;
-    --text: #1a1916;
-    --text-muted: #706d66;
-    --text-light: #a09c94;
-    --accent: #2c4a7c;
-    --accent-light: #e8edf5;
-    --accent-muted: #6b88b5;
-    --font-serif: 'Lora', Georgia, serif;
-    --font-mono: 'DM Mono', monospace;
-    --radius: 6px;
-    --radius-lg: 10px;
-  }
-
-  body.dark {
-    --bg: #12121a;
-    --surface: #1c1c28;
-    --border: #2a2a3a;
-    --border-hover: #3e3e54;
-    --text: #e4e2dc;
-    --text-muted: #9490a0;
-    --text-light: #52506a;
-    --accent: #7daad6;
-    --accent-light: #181e2e;
-    --accent-muted: #5580ae;
-  }
-
-  body {
-    font-family: var(--font-serif);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 15px;
-    line-height: 1.6;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  /* Stile per il Logo */
-  .header-logo {
-    height: 38px;
-    margin-right: 12px;
-    display: block;
-  }
-
-  .header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .header-brand { display: flex; align-items: center; gap: 4px; }
-  .header-brand-text { display: flex; flex-direction: column; }
-  .header-brand h1 { font-size: 17px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; }
-  .header-brand span { font-family: var(--font-mono); font-size: 11px; color: var(--text-light); letter-spacing: 0.05em; text-transform: uppercase; }
-  .header-right { display: flex; align-items: center; gap: 12px; 
-  <div class="visit-counter" id="visit-counter">
-  👁 <span id="visit-count">—</span>
-  </div>
-                }
-
-  .theme-toggle { display: flex; align-items: center; gap: 7px; }
-  .toggle-icon { font-size: 13px; line-height: 1; }
-  .toggle-track {
-    width: 42px; height: 22px; border-radius: 11px;
-    background: var(--border); border: 1px solid var(--border-hover);
-    position: relative; cursor: pointer;
-    transition: background 0.2s, border-color 0.2s; flex-shrink: 0;
-  }
-  .toggle-track::after {
-    content: ''; position: absolute;
-    width: 16px; height: 16px; border-radius: 50%;
-    background: var(--text-light); top: 2px; left: 2px;
-    transition: transform 0.2s, background 0.2s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
-  }
-  body.dark .toggle-track { background: var(--accent); border-color: var(--accent-muted); }
-  body.dark .toggle-track::after { transform: translateX(20px); background: #fff; }
-
-  .layout { display: flex; max-width: 1280px; margin: 0 auto; }
-
-  .sidebar {
-    width: 220px; flex-shrink: 0;
-    padding: 1.5rem 1rem;
-    border-right: 1px solid var(--border);
-    min-height: calc(100vh - 60px);
-    background: var(--surface);
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .sidebar-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); padding: 0 8px; margin-bottom: 6px; }
-  .nav-list { list-style: none; }
-  .nav-item {
-    display: flex; align-items: center; gap: 8px;
-    padding: 7px 10px; border-radius: var(--radius);
-    cursor: pointer; font-size: 13px; color: var(--text-muted);
-    transition: all 0.12s; user-select: none;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .nav-item:hover { background: var(--bg); color: var(--text); }
-  .nav-item.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
-  .nav-item .ni { font-size: 13px; flex-shrink: 0; }
-
-  .main { flex: 1; padding: 1.5rem 2rem; min-width: 0; }
-
-  .breadcrumb { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--text-light); margin-bottom: 1.25rem; flex-wrap: wrap; }
-  .breadcrumb span { cursor: pointer; transition: color 0.12s; }
-  .breadcrumb span:hover { color: var(--accent); }
-  .breadcrumb .sep { color: var(--border-hover); }
-  .breadcrumb .current { color: var(--text-muted); cursor: default; }
-
-  .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-  .toolbar-left { display: flex; align-items: center; gap: 8px; flex: 1; }
-  .search-wrap { position: relative; max-width: 260px; flex: 1; }
-  .search-wrap input {
-    font-family: var(--font-serif); font-size: 13px; width: 100%;
-    padding: 6px 12px 6px 32px; border: 1px solid var(--border);
-    border-radius: var(--radius); background: var(--surface); color: var(--text);
-    outline: none; transition: border-color 0.15s, background 0.2s;
-  }
-  .search-wrap input::placeholder { color: var(--text-light); }
-  .search-wrap input:focus { border-color: var(--accent-muted); }
-  .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-light); font-size: 12px; pointer-events: none; }
-  .filter-select {
-    font-family: var(--font-serif); font-size: 13px; padding: 6px 10px;
-    border: 1px solid var(--border); border-radius: var(--radius);
-    background: var(--surface); color: var(--text); outline: none; cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .view-toggle { display: flex; gap: 2px; }
-  button { font-family: var(--font-serif); font-size: 13px; cursor: pointer; border-radius: var(--radius); transition: all 0.15s; border: 1px solid var(--border); background: var(--surface); color: var(--text); padding: 6px 14px; line-height: 1.4; }
-  button:hover { border-color: var(--border-hover); background: var(--bg); }
-  button.icon-btn { padding: 6px 8px; font-size: 14px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; min-width: 32px; }
-  button.icon-btn.active { background: var(--bg); border-color: var(--border-hover); }
-
-  .stat-bar { display: flex; gap: 1rem; padding: 10px 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1.5rem; transition: background 0.2s, border-color 0.2s; }
-  .stat { text-align: center; flex: 1; }
-  .stat .stat-val { font-family: var(--font-mono); font-size: 17px; font-weight: 500; color: var(--accent); }
-  .stat .stat-lbl { font-size: 11px; color: var(--text-light); margin-top: 1px; }
-
-  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1rem; }
-  .section-header h2 { font-size: 18px; font-weight: 500; }
-  .section-header .count { font-family: var(--font-mono); font-size: 12px; color: var(--text-light); }
-
-  .files-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; }
-  .files-list { display: flex; flex-direction: column; gap: 4px; }
-
-  .file-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius-lg); padding: 1rem; cursor: pointer;
-    transition: all 0.15s; position: relative;
-  }
-  .file-card:hover { border-color: var(--border-hover); box-shadow: 0 2px 12px rgba(0,0,0,0.12); transform: translateY(-1px); }
-  .file-card.is-folder { border-left: 3px solid var(--accent); }
-  .file-card .file-icon { font-size: 26px; margin-bottom: 10px; display: block; }
-  .file-card .file-name { font-size: 13px; font-weight: 500; word-break: break-word; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .file-card .file-meta { font-family: var(--font-mono); font-size: 10px; color: var(--text-light); margin-top: 8px; }
-  .file-card .open-btn { position: absolute; top: 8px; right: 8px; opacity: 0; transition: opacity 0.15s; padding: 3px 8px; font-size: 11px; }
-  .file-card:hover .open-btn { opacity: 1; }
-
-  .file-row { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.12s; }
-  .file-row:hover { border-color: var(--border-hover); background: var(--bg); }
-  .file-row .file-icon { font-size: 18px; flex-shrink: 0; }
-  .file-row .file-name { flex: 1; font-size: 14px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .file-row .file-badge { font-family: var(--font-mono); font-size: 10px; padding: 2px 7px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-light); background: var(--bg); flex-shrink: 0; }
-  .file-row .file-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-light); flex-shrink: 0; width: 90px; text-align: right; }
-  .file-row .open-btn { opacity: 0; transition: opacity 0.12s; flex-shrink: 0; padding: 3px 8px; font-size: 11px; }
-  .file-row:hover .open-btn { opacity: 1; }
-
-  .state-box { padding: 3rem; text-align: center; color: var(--text-muted); }
-  .state-box .ico { font-size: 36px; margin-bottom: 1rem; opacity: 0.4; display: block; }
-  .state-box p { font-size: 14px; }
-  .spin { animation: spin 1s linear infinite; display: inline-block; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  @media (max-width: 700px) { .sidebar { display: none; } .main { padding: 1rem; } .header { padding: 0 1rem; } }
-
-
- /* Blocca l'esterno e usa il Flexbox per gestire gli spazi */
-html, body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden; /* La pagina intera non deve avere la barra di scorrimento */
+body.dark {
+  --bg: #12121a;
+  --surface: #1c1c28;
+  --border: #2a2a3a;
+  --border-hover: #3e3e54;
+  --text: #e4e2dc;
+  --text-muted: #9490a0;
+  --text-light: #52506a;
+  --accent: #7daad6;
+  --accent-light: #181e2e;
+  --accent-muted: #5580ae;
 }
 
 body {
+  font-family: var(--font-serif);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+  transition: background 0.2s, color 0.2s;
+}
+
+.header-logo { height: 38px; margin-right: 12px; display: block; }
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background 0.2s, border-color 0.2s;
 }
+.header-brand { display: flex; align-items: center; gap: 4px; }
+.header-brand-text { display: flex; flex-direction: column; }
+.header-brand h1 { font-size: 17px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; }
+.header-brand span { font-family: var(--font-mono); font-size: 11px; color: var(--text-light); letter-spacing: 0.05em; text-transform: uppercase; }
+.header-right { display: flex; align-items: center; gap: 12px; }
 
-/* Header e Footer stanno fissi (non si restringono) */
-.header, .footer {
-  flex-shrink: 0;
+.theme-toggle { display: flex; align-items: center; gap: 7px; }
+.toggle-icon { font-size: 13px; line-height: 1; }
+.toggle-track {
+  width: 42px; height: 22px; border-radius: 11px;
+  background: var(--border); border: 1px solid var(--border-hover);
+  position: relative; cursor: pointer;
+  transition: background 0.2s, border-color 0.2s; flex-shrink: 0;
 }
-
-/* Il layout centrale occupa tutto lo spazio rimasto */
-.layout {
-  flex: 1;
-  display: flex;
-  overflow: hidden; /* Fondamentale: impedisce al layout di "scoppiare" */
+.toggle-track::after {
+  content: ''; position: absolute;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--text-light); top: 2px; left: 2px;
+  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
 }
+body.dark .toggle-track { background: var(--accent); border-color: var(--accent-muted); }
+body.dark .toggle-track::after { transform: translateX(20px); background: #fff; }
 
-/* Rende la Sidebar e la Main scorrevoli INDIPENDENTEMENTE */
-.sidebar, .main {
-  height: 100%;
-  overflow-y: auto; /* Abilita lo scorrimento solo qui dentro */
-  -webkit-overflow-scrolling: touch; /* Rende lo scroll fluido su iPhone/iPad */
+.layout { display: flex; max-width: 1280px; margin: 0 auto; }
+.sidebar {
+  width: 220px; flex-shrink: 0;
+  padding: 1.5rem 1rem;
+  border-right: 1px solid var(--border);
+  min-height: calc(100vh - 60px);
+  background: var(--surface);
+  transition: background 0.2s, border-color 0.2s;
 }
-
-/* Fix per le briciole di pane (breadcrumb) che vedi ammassate */
-.breadcrumb {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto; /* Se diventano troppo lunghe, scorrono lateralmente */
-  white-space: nowrap; /* Non le fa andare a capo */
-  padding-bottom: 10px;
-  scrollbar-width: none; /* Nasconde la barra brutta su Firefox */
+.sidebar-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); padding: 0 8px; margin-bottom: 6px; }
+.nav-list { list-style: none; }
+.nav-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; border-radius: var(--radius);
+  cursor: pointer; font-size: 13px; color: var(--text-muted);
+  transition: all 0.12s; user-select: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.breadcrumb::-webkit-scrollbar { display: none; } /* Nasconde la barra su Chrome/Safari */
+.nav-item:hover { background: var(--bg); color: var(--text); }
+.nav-item.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+.nav-item .ni { font-size: 13px; flex-shrink: 0; }
 
+.main { flex: 1; padding: 1.5rem 2rem; min-width: 0; }
 
+.breadcrumb { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--text-light); margin-bottom: 1.25rem; flex-wrap: wrap; }
+.breadcrumb span { cursor: pointer; transition: color 0.12s; }
+.breadcrumb span:hover { color: var(--accent); }
+.breadcrumb .sep { color: var(--border-hover); }
+.breadcrumb .current { color: var(--text-muted); cursor: default; }
+
+.toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.toolbar-left { display: flex; align-items: center; gap: 8px; flex: 1; }
+.search-wrap { position: relative; max-width: 260px; flex: 1; }
+.search-wrap input {
+  font-family: var(--font-serif); font-size: 13px; width: 100%;
+  padding: 6px 12px 6px 32px; border: 1px solid var(--border);
+  border-radius: var(--radius); background: var(--surface); color: var(--text);
+  outline: none; transition: border-color 0.15s, background 0.2s;
+}
+.search-wrap input::placeholder { color: var(--text-light); }
+.search-wrap input:focus { border-color: var(--accent-muted); }
+.search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-light); font-size: 12px; pointer-events: none; }
+.filter-select {
+  font-family: var(--font-serif); font-size: 13px; padding: 6px 10px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); color: var(--text); outline: none; cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.view-toggle { display: flex; gap: 2px; }
+button { font-family: var(--font-serif); font-size: 13px; cursor: pointer; border-radius: var(--radius); transition: all 0.15s; border: 1px solid var(--border); background: var(--surface); color: var(--text); padding: 6px 14px; line-height: 1.4; }
+button:hover { border-color: var(--border-hover); background: var(--bg); }
+button.icon-btn { padding: 6px 8px; font-size: 14px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; min-width: 32px; }
+button.icon-btn.active { background: var(--bg); border-color: var(--border-hover); }
+
+.stat-bar { display: flex; gap: 1rem; padding: 10px 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1.5rem; transition: background 0.2s, border-color 0.2s; }
+.stat { text-align: center; flex: 1; }
+.stat .stat-val { font-family: var(--font-mono); font-size: 17px; font-weight: 500; color: var(--accent); }
+.stat .stat-lbl { font-size: 11px; color: var(--text-light); margin-top: 1px; }
+
+.section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1rem; }
+.section-header h2 { font-size: 18px; font-weight: 500; }
+.section-header .count { font-family: var(--font-mono); font-size: 12px; color: var(--text-light); }
+
+.files-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; }
+.files-list { display: flex; flex-direction: column; gap: 4px; }
+
+.file-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 1rem; cursor: pointer;
+  transition: all 0.15s; position: relative;
+}
+.file-card:hover { border-color: var(--border-hover); box-shadow: 0 2px 12px rgba(0,0,0,0.12); transform: translateY(-1px); }
+.file-card.is-folder { border-left: 3px solid var(--accent); }
+.file-card .file-icon { font-size: 26px; margin-bottom: 10px; display: block; }
+.file-card .file-name { font-size: 13px; font-weight: 500; word-break: break-word; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.file-card .file-meta { font-family: var(--font-mono); font-size: 10px; color: var(--text-light); margin-top: 8px; }
+.file-card .open-btn { position: absolute; top: 8px; right: 8px; opacity: 0; transition: opacity 0.15s; padding: 3px 8px; font-size: 11px; }
+.file-card:hover .open-btn { opacity: 1; }
+
+.file-row { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.12s; }
+.file-row:hover { border-color: var(--border-hover); background: var(--bg); }
+.file-row .file-icon { font-size: 18px; flex-shrink: 0; }
+.file-row .file-name { flex: 1; font-size: 14px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-row .file-badge { font-family: var(--font-mono); font-size: 10px; padding: 2px 7px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-light); background: var(--bg); flex-shrink: 0; }
+.file-row .file-path { font-family: var(--font-mono); font-size: 10px; color: var(--text-light); flex-shrink: 0; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-row .file-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-light); flex-shrink: 0; width: 90px; text-align: right; }
+.file-row .open-btn { opacity: 0; transition: opacity 0.12s; flex-shrink: 0; padding: 3px 8px; font-size: 11px; }
+.file-row:hover .open-btn { opacity: 1; }
+
+.state-box { padding: 3rem; text-align: center; color: var(--text-muted); }
+.state-box .ico { font-size: 36px; margin-bottom: 1rem; opacity: 0.4; display: block; }
+.state-box p { font-size: 14px; }
+.spin { animation: spin 1s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 700px) { .sidebar { display: none; } .main { padding: 1rem; } .header { padding: 0 1rem; } }
+
+html, body { height: 100%; margin: 0; overflow: hidden; }
+body { display: flex; flex-direction: column; }
+.header, .footer { flex-shrink: 0; }
+.layout { flex: 1; display: flex; overflow: hidden; }
+.sidebar, .main { height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.breadcrumb { display: flex; gap: 8px; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; scrollbar-width: none; }
+.breadcrumb::-webkit-scrollbar { display: none; }
+
+/* Lightbox */
 .lbx-overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,0.82);
   display: none; align-items: center; justify-content: center;
   z-index: 3000; flex-direction: column;
 }
 .lbx-overlay.open { display: flex; }
-.lbx-header {
-  width: 100%; max-width: 1000px; display: flex; align-items: center;
-  justify-content: space-between; padding: 12px 16px; gap: 12px;
-}
+.lbx-header { width: 100%; max-width: 1000px; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; gap: 12px; }
 .lbx-title { font-size: 14px; font-weight: 500; color: #e4e2dc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
 .lbx-counter { font-family: var(--font-mono); font-size: 12px; color: #9490a0; flex-shrink: 0; }
 .lbx-close { background: none; border: none; color: #9490a0; font-size: 22px; cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: color 0.15s, background 0.15s; }
@@ -342,11 +267,38 @@ body {
 .lbx-open-ext:hover { background: rgba(255,255,255,0.14); }
 .lbx-footer { width: 100%; max-width: 1000px; display: flex; gap: 8px; padding: 0 16px 14px; align-items: center; justify-content: center; font-size: 12px; color: rgba(255,255,255,0.25); }
 .lbx-footer kbd { display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; padding: 2px 7px; font-size: 11px; color: rgba(255,255,255,0.45); font-family: monospace; }
+.lbx-blocker { position: absolute; inset: 0; z-index: 10; background: transparent; cursor: pointer; }
+.lbx-blocker::after {
+  content: 'Clicca per scorrere';
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.5); color: rgba(255,255,255,0.6);
+  font-size: 11px; padding: 4px 10px; border-radius: 20px;
+  font-family: monospace; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+}
+.lbx-blocker:hover::after { opacity: 1; }
 
- 
+/* Maintenance overlay */
+#maintenance-overlay {
+  position: fixed; inset: 0; z-index: 9999; background: var(--bg);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 1.5rem; text-align: center; padding: 2rem; display: none;
+}
 </style>
 </head>
 <body>
+
+<div id="maintenance-overlay">
+  <div style="font-size:52px;">🔧</div>
+  <h2 style="font-family:var(--font-serif); font-size:22px; font-weight:500; color:var(--text);">Archivio temporaneamente non disponibile</h2>
+  <p style="color:var(--text-muted); max-width:420px; line-height:1.7;">
+    Stiamo lavorando per ripristinare il servizio il prima possibile.<br>Riprova tra qualche minuto.
+  </p>
+  <button onclick="location.reload()" style="padding:10px 24px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:var(--text); cursor:pointer; font-family:var(--font-serif); font-size:14px;">↺ Riprova</button>
+  <p style="font-size:12px; color:var(--text-light); font-family:var(--font-mono);">
+    Per segnalazioni: <a href="mailto:archivio_biologia_free@proton.me" style="color:var(--accent);">archivio_biologia_free@proton.me</a>
+  </p>
+</div>
 
 <header class="header">
   <div class="header-brand">
@@ -357,6 +309,9 @@ body {
     </div>
   </div>
   <div class="header-right">
+    <div class="visit-counter" id="visit-counter">
+      👁 <span id="visit-count">—</span>
+    </div>
     <div class="theme-toggle">
       <span class="toggle-icon">☀️</span>
       <div class="toggle-track" onclick="toggleTheme()" title="Cambia tema chiaro/scuro"></div>
@@ -412,47 +367,73 @@ body {
       <div class="state-box"><span class="ico spin">⟳</span><p>Caricamento file…</p></div>
     </div>
   </main>
-
 </div>
 
 <footer class="footer">
   <div class="footer-content">
-    <span>Hai materiale da condividere?</span> 
-    <span class="footer-sep">|</span> 
-    <span>Scrivi a:</span>
-    <a href="mailto:archivio_biologia_free@proton.me?subject=Invio%20Materiale%20Didattico" class="email-inline">
-      archivio_biologia_free@proton.me
-    </a>
+    <span>Hai materiale da condividere?</span>
     <span class="footer-sep">|</span>
-    <span class="footer-disclaimer">
-      Condivisione in forma anonima a solo scopo didattico senza fini di lucro <3
-    </span>
+    <span>Scrivi a:</span>
+    <a href="mailto:archivio_biologia_free@proton.me?subject=Invio%20Materiale%20Didattico" class="email-inline">archivio_biologia_free@proton.me</a>
+    <span class="footer-sep">|</span>
+    <span class="footer-disclaimer">Condivisione in forma anonima a solo scopo didattico senza fini di lucro &lt;3</span>
   </div>
 </footer>
 
+<div id="readme-modal" class="modal-overlay" onclick="closeReadme()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeReadme()">×</button>
+    <div class="readme-body">
+      <h2 style="font-family:var(--font-serif); color:var(--accent); margin-bottom:1.5rem;">Benvenuto nell'Archivio :)</h2>
+      <p style="font-style:italic; border-left:3px solid var(--accent); padding-left:15px; margin-bottom:2rem; color:var(--text); line-height:1.8; text-align:justify;">
+        "Questo progetto è un ecosistema di mutuo soccorso. Vendere il materiale oltre che essere immorale è anche illegale.
+         L'obiettivo è centralizzare ciò che spesso si perde nei meandri di gruppi WhatsApp o Drive privati, rendendo il percorso universitario meno tortuoso per tutti."
+      </p>
+      <hr style="border:0; border-top:1px solid var(--border); margin:2rem 0;">
+      <h3 style="font-size:0.9rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin-bottom:0.5rem;">Motivazioni</h3>
+      <p style="text-align:justify;">Il materiale didattico dovrebbe essere un bene comune. L'intento è quello di unire gli sforzi di tutti e garantire il diritto allo studio in modo semplice e gratuito.</p>
+      <h3 style="font-size:0.9rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); margin-top:1.5rem; margin-bottom:0.5rem;">Note Legali & Copyright</h3>
+      <ul style="list-style:none; padding:0; font-size:0.9rem; text-align:justify;">
+        <li style="margin-bottom:8px;">🔹 <strong>Indipendenza:</strong> Questa è una iniziativa studentesca <u>non ufficiale</u> e non affiliata in alcun modo a UniFi, destinata a esclusivo uso personale.</li>
+        <li style="margin-bottom:8px;">🔹 <strong>No Profit:</strong> L'archivio è 100% gratuito e non genera alcun tipo di guadagno.</li>
+        <li style="margin-bottom:8px;">🔹 <strong>Rimozioni:</strong> Per richieste di rimozione contenuti, scrivi a:<br>
+          <a href="mailto:archivio_biologia_free@proton.me" class="email-inline">archivio_biologia_free@proton.me</a></li>
+      </ul>
+      <div style="margin-top:30px; font-size:0.75rem; color:var(--text-light); font-family:var(--font-mono); text-align:center;">
+        ~ visualizzazione ottimizzata solo per versione desktop ~
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="lbx-overlay" id="lbx" tabindex="-1">
+  <div class="lbx-header">
+    <span class="lbx-title" id="lbx-title">—</span>
+    <span class="lbx-counter" id="lbx-counter"></span>
+    <button class="lbx-close" onclick="closeLightbox()">×</button>
+  </div>
+  <div class="lbx-body">
+    <button class="lbx-arrow" id="lbx-prev" onclick="lbxNav(-1)">&#8592;</button>
+    <div class="lbx-frame-wrap" id="lbx-frame-wrap"></div>
+    <button class="lbx-arrow" id="lbx-next" onclick="lbxNav(1)">&#8594;</button>
+  </div>
+  <div class="lbx-footer">
+    <kbd>←</kbd> <kbd>→</kbd> naviga &nbsp;&nbsp;
+    <kbd>Esc</kbd> chiudi &nbsp;&nbsp;
+    <kbd>O</kbd> apri in Drive
+  </div>
+</div>
+
 <script>
-
-function openReadme() { document.getElementById('readme-modal').style.display = 'flex'; }
-function closeReadme() { document.getElementById('readme-modal').style.display = 'none'; }
-
-
-function jumpToFolder(id, name) {
-  stack = []; // Svuota completamente il percorso precedente
-  const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?f=' + id;
-  window.history.pushState({ folderId: id, folderName: name, stack: [] }, "", newUrl);
-  loadFolder(id, name);
-}
-
- 
 // --- CONFIGURAZIONE ---
-const API_KEY = 'AIzaSyCK1qxkszf-Zvwovt2QgYzru4cIkkIBVdE';
 const ROOT_ID = '14WaurkHwQIuqCs7cPN-nNYLlax0xpfRD';
-// Aggiungi qui nomi di cartelle da nascondere (minuscolo)
-const EXCLUDED = ['documenti', 'privato']; 
+const EXCLUDED = ['documenti', 'privato'];
 
 let currentId = ROOT_ID, stack = [], allItems = [], currentView = 'list';
+let fullIndex = [];   // tutto l'archivio in memoria
+let lbxIndex = 0, lbxItems = [];
 
-// --- TEMA E VISITE ---
+// --- TEMA ---
 function toggleTheme() {
   const dark = document.body.classList.toggle('dark');
   localStorage.setItem('theme', dark ? 'dark' : 'light');
@@ -463,71 +444,119 @@ function toggleTheme() {
     document.body.classList.add('dark');
 })();
 
+// --- VISITE ---
 async function updateVisitCounter() {
   try {
-    const path = window.location.pathname || "/";
-    const url = `https://archiviobiologia.goatcounter.com/counter/${encodeURIComponent(path)}.json`;
-
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("Errore fetch");
-
+    const path = window.location.pathname || '/';
+    const res = await fetch(`https://archiviobiologia.goatcounter.com/counter/${encodeURIComponent(path)}.json`);
+    if (!res.ok) throw new Error();
     const data = await res.json();
     const count = data.count || 0;
-
     document.getElementById('visit-count').textContent = count.toLocaleString();
     document.getElementById('s-visits').textContent = count.toLocaleString();
-
-  } catch (e) {
-    console.log("Errore GoatCounter:", e);
-    document.getElementById('visit-count').textContent = "—";
-    document.getElementById('s-visits').textContent = "—";
+  } catch(e) {
+    document.getElementById('visit-count').textContent = '—';
+    document.getElementById('s-visits').textContent = '—';
   }
 }
 
- 
-// --- LOGICA DRIVE ---
-async function fetchItems(folderId) {
-  let items = [], pageToken = '';
-  do {
-    const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&fields=nextPageToken,files(id,name,mimeType,size,modifiedTime)&orderBy=folder,name&pageSize=200&key=${API_KEY}${pageToken?'&pageToken='+pageToken:''}`;
-    const res = await fetch(url);
-    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || res.status); }
-    const d = await res.json();
-    items = items.concat(d.files || []);
-    pageToken = d.nextPageToken || '';
-  } while (pageToken);
-
-  // FILTRO: Nasconde cartelle in EXCLUDED o che iniziano con "_"
-  return items.filter(f => {
-    const name = f.name.toLowerCase();
-    return !name.startsWith('_') && !EXCLUDED.includes(name);
-  });
+// --- CARICA INDICE DA JSON ---
+async function loadIndex() {
+  const res = await fetch('index.json');
+  if (!res.ok) throw new Error('index.json non trovato');
+  fullIndex = await res.json();
 }
 
+// Restituisce i figli diretti di un nodo (cartelle e file)
+function getChildren(parentId) {
+  if (parentId === ROOT_ID) {
+    // Figli diretti della root = elementi con path vuoto
+    return fullIndex.filter(f => f.path === '' || f.path === undefined || f.path === null);
+  }
+  const parent = fullIndex.find(f => f.id === parentId);
+  if (!parent) return [];
+  const parentPath = parent.path ? parent.path + ' › ' + parent.name : parent.name;
+  return fullIndex.filter(f => f.path === parentPath);
+}
+
+// --- LOAD FOLDER (ora legge da fullIndex) ---
 async function loadFolder(id, name) {
   const container = document.getElementById('file-container');
   container.innerHTML = `<div class="state-box"><span class="ico spin">⟳</span><p>Caricamento…</p></div>`;
   try {
-    allItems = await fetchItems(id);
+    if (fullIndex.length === 0) await loadIndex();
+    document.getElementById('maintenance-overlay').style.display = 'none';
+
+    allItems = getChildren(id);
     currentId = id;
     updateBreadcrumb(name);
-    updateStats(allItems);
-    
+
     if (id === ROOT_ID) {
-      buildSidebar(allItems.filter(f => f.mimeType === 'application/vnd.google-apps.folder'));
+      const subFolders = allItems.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
+      buildSidebar(subFolders);
       document.getElementById('section-title').textContent = 'Tutti i semestri';
+      // Stats globali immediate (tutto è già in memoria!)
+      const allFiles = fullIndex.filter(f => f.mimeType !== 'application/vnd.google-apps.folder');
+      document.getElementById('s-folders').textContent = subFolders.length;
+      document.getElementById('s-files').textContent = allFiles.length;
+      document.getElementById('s-pdfs').textContent = allFiles.filter(f => f.mimeType === 'application/pdf').length;
     } else {
-      document.getElementById('section-title').textContent = (name === 'Caricamento...') ? 'Cartella' : name;
+      updateStats(allItems);
+      document.getElementById('section-title').textContent = name === 'Caricamento...' ? 'Cartella' : name;
     }
     render();
   } catch(e) {
-    container.innerHTML = `<div class="state-box"><span class="ico">⚠️</span><p>Errore: ${e.message}<br><small>Verifica le restrizioni della chiave API e che la cartella sia pubblica.</small></p></div>`;
+    document.getElementById('maintenance-overlay').style.display = 'flex';
+    container.innerHTML = '';
   }
 }
 
+function updateStats(items) {
+  const fold = items.filter(f => f.mimeType === 'application/vnd.google-apps.folder');
+  const files = items.filter(f => f.mimeType !== 'application/vnd.google-apps.folder');
+  document.getElementById('s-folders').textContent = fold.length;
+  document.getElementById('s-files').textContent = files.length;
+  document.getElementById('s-pdfs').textContent = files.filter(f => f.mimeType === 'application/pdf').length;
+}
+
+// --- RENDER ---
 function render() {
-  const q = document.getElementById('search-input').value.toLowerCase();
+  const q = document.getElementById('search-input').value.toLowerCase().trim();
   const type = document.getElementById('type-filter').value;
+  const cont = document.getElementById('file-container');
+
+  // Ricerca globale dalla root
+  if (currentId === ROOT_ID && q.length >= 2) {
+    const results = fullIndex.filter(f => {
+      if (f.mimeType === 'application/vnd.google-apps.folder') return false;
+      if (!f.name.toLowerCase().includes(q)) return false;
+      if (!type) return true;
+      if (type === 'pdf') return f.mimeType === 'application/pdf';
+      if (type === 'pptx') return f.mimeType?.includes('presentation') || /\.pptx?$/i.test(f.name);
+      if (type === 'docx') return f.mimeType?.includes('document') || /\.docx?$/i.test(f.name);
+      return true;
+    });
+    document.getElementById('section-title').textContent = `Ricerca: "${q}"`;
+    document.getElementById('section-count').textContent = results.length + ' risultati';
+    if (!results.length) {
+      cont.innerHTML = `<div class="state-box"><span class="ico">🔍</span><p>Nessun risultato per "<strong>${eh(q)}</strong>"</p></div>`;
+      return;
+    }
+    cont.innerHTML = `<div class="files-list">${results.map(f => `
+      <div class="file-row" onclick="openFile('${f.id}')">
+        <span class="file-icon">${ico(f)}</span>
+        <span class="file-name">${eh(f.name)}</span>
+        <span class="file-path" title="${eh(f.path || '')}">${eh(f.path || '')}</span>
+        <span class="file-badge">${f.name.includes('.') ? f.name.split('.').pop().toUpperCase() : '—'}</span>
+        <button class="open-btn" onclick="event.stopPropagation();openFile('${f.id}')">Apri ↗</button>
+      </div>`).join('')}</div>`;
+    return;
+  }
+
+  if (currentId === ROOT_ID) {
+    document.getElementById('section-title').textContent = 'Tutti i semestri';
+  }
+
   const filtered = allItems.filter(f => {
     if (!f.name.toLowerCase().includes(q)) return false;
     if (!type) return true;
@@ -537,23 +566,23 @@ function render() {
     if (type === 'docx') return f.mimeType?.includes('document') || /\.docx?$/i.test(f.name);
     return true;
   });
-  
+
   document.getElementById('section-count').textContent = filtered.length + ' elementi';
-  const cont = document.getElementById('file-container');
   if (!filtered.length) { cont.innerHTML = `<div class="state-box"><span class="ico">📂</span><p>Nessun file trovato</p></div>`; return; }
-  
   cont.innerHTML = currentView === 'grid'
     ? `<div class="files-grid">${filtered.map(cardHTML).join('')}</div>`
     : `<div class="files-list">${filtered.map(rowHTML).join('')}</div>`;
 }
 
 // --- HTML COMPONENTS ---
+function cleanName(s) { return s.replace(/[\u{1F300}-\u{1FFFF}]/gu, '').replace(/[\u2600-\u27BF]/g, '').trim(); }
+
 function cardHTML(f) {
   const isF = f.mimeType === 'application/vnd.google-apps.folder';
   const click = isF ? `enterFolder('${f.id}','${eq(f.name)}')` : `openFile('${f.id}')`;
   return `<div class="file-card ${isF?'is-folder':''}" onclick="${click}">
     <span class="file-icon">${ico(f)}</span>
-    <div class="file-name">${eh(f.name)}</div>
+    <div class="file-name">${eh(cleanName(f.name))}</div>
     <div class="file-meta">${f.size?fmt(+f.size):''} ${f.modifiedTime?'· '+rel(f.modifiedTime):''}</div>
     ${!isF?`<button class="open-btn" onclick="event.stopPropagation();openFile('${f.id}')">Apri ↗</button>`:''}
   </div>`;
@@ -565,51 +594,55 @@ function rowHTML(f) {
   const click = isF ? `enterFolder('${f.id}','${eq(f.name)}')` : `openFile('${f.id}')`;
   return `<div class="file-row" onclick="${click}">
     <span class="file-icon">${ico(f)}</span>
-    <span class="file-name">${eh(f.name)}</span>
+    <span class="file-name">${eh(cleanName(f.name))}</span>
     <span class="file-badge">${ext}</span>
     <span class="file-date">${f.modifiedTime?rel(f.modifiedTime):'—'}</span>
     ${!isF?`<button class="open-btn" onclick="event.stopPropagation();openFile('${f.id}')">Apri ↗</button>`:''}
   </div>`;
 }
 
-// --- NAVIGAZIONE & HISTORY ---
+// --- NAVIGAZIONE ---
+function jumpToFolder(id, name) {
+  stack = [];
+  const newUrl = location.protocol + '//' + location.host + location.pathname + '?f=' + id;
+  history.pushState({ folderId: id, folderName: name, stack: [] }, '', newUrl);
+  loadFolder(id, name);
+}
+
 function updateBreadcrumb(name) {
   let html = `<span onclick="navRoot()">🏠 UniFi</span>`;
-  stack.forEach((item, i) => { 
-    if(item.id !== ROOT_ID) {
-      html += `<span class="sep">›</span><span onclick="navStack(${i})">${eh(item.name)}</span>`; 
-    }
+  stack.forEach((item, i) => {
+    if (item.id !== ROOT_ID)
+      html += `<span class="sep">›</span><span onclick="navStack(${i})">${eh(cleanName(item.name))}</span>`;
   });
-  if (name && name !== 'UniFi' && name !== 'Archivio Universitario di Biologia' && name !== 'Caricamento...') {
-    html += `<span class="sep">›</span><span class="current">${eh(name)}</span>`;
-  }
+  if (name && name !== 'UniFi' && name !== 'Caricamento...')
+    html += `<span class="sep">›</span><span class="current">${eh(cleanName(name))}</span>`;
   document.getElementById('breadcrumb').innerHTML = html;
-  document.getElementById('header-sub').textContent = (name && name !== 'Caricamento...') ? name : 'UniFi';
+  document.getElementById('header-sub').textContent = (name && name !== 'Caricamento...') ? cleanName(name) : 'UniFi';
 }
 
 function enterFolder(id, name) {
   stack.push({ id: currentId, name: document.getElementById('header-sub').textContent });
-  const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?f=' + id;
-  window.history.pushState({ folderId: id, folderName: name, stack: [...stack] }, "", newUrl);
+  const newUrl = location.protocol + '//' + location.host + location.pathname + '?f=' + id;
+  history.pushState({ folderId: id, folderName: name, stack: [...stack] }, '', newUrl);
   loadFolder(id, name);
   document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
 }
 
 function navRoot() {
   stack = [];
-  const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-  window.history.pushState({}, "", newUrl);
-  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  history.pushState({}, '', location.protocol + '//' + location.host + location.pathname);
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
   document.getElementById('nav-root')?.classList.add('active');
-  loadFolder(ROOT_ID, "UniFi");
+  loadFolder(ROOT_ID, 'UniFi');
 }
 
-function navStack(i) { 
-  const t=stack[i]; 
-  stack=stack.slice(0,i); 
-  const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?f=' + t.id;
-  window.history.pushState({ folderId: t.id, folderName: t.name, stack: [...stack] }, "", newUrl);
-  loadFolder(t.id, t.name); 
+function navStack(i) {
+  const t = stack[i];
+  stack = stack.slice(0, i);
+  const newUrl = location.protocol + '//' + location.host + location.pathname + '?f=' + t.id;
+  history.pushState({ folderId: t.id, folderName: t.name, stack: [...stack] }, '', newUrl);
+  loadFolder(t.id, t.name);
 }
 
 window.onpopstate = function(event) {
@@ -618,79 +651,52 @@ window.onpopstate = function(event) {
     loadFolder(event.state.folderId, event.state.folderName);
   } else {
     stack = [];
-    loadFolder(ROOT_ID, "UniFi");
+    loadFolder(ROOT_ID, 'UniFi');
   }
 };
 
-// --- UTILS ---
-// --- UTILS ---
-function updateStats(items) {
-  const fold = items.filter(f=>f.mimeType==='application/vnd.google-apps.folder');
-  const files = items.filter(f=>f.mimeType!=='application/vnd.google-apps.folder');
-  document.getElementById('s-folders').textContent = fold.length;
-  document.getElementById('s-files').textContent = files.length;
-  document.getElementById('s-pdfs').textContent = files.filter(f=>f.mimeType==='application/pdf').length;
-}
-
+// --- SIDEBAR ---
 function buildSidebar(folders) {
   const container = document.getElementById('nav-list');
-  // 1. Iniziamo con il tasto Home
   let html = `<li class="nav-item active" id="nav-root" onclick="navRoot()"><span class="ni">🏠</span> Tutti i semestri</li>`;
-  
-  // Ordiniamo le cartelle (1.1, 1.2, 2.1...)
   folders.sort((a, b) => a.name.localeCompare(b.name));
-  
-  let ultimoAnnoTrovato = null;
-
-  // --- INIZIO CICLO SEMESTRI ---
+  let ultimoAnno = null;
   folders.forEach(f => {
-    const match = f.name.match(/\d/); 
-    const annoAttuale = match ? match[0] : null;
-
-    // Inseriamo il divisore dell'anno (es: 1° Anno)
-    if (annoAttuale && annoAttuale !== ultimoAnnoTrovato) {
-      ultimoAnnoTrovato = annoAttuale;
-      html += `
-        <div style="margin: 18px 10px 8px; border-top: 1px solid var(--border); padding-top: 10px; font-family: var(--font-mono); font-size: 10px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;">
-          ${annoAttuale}° Anno
-        </div>`;
+    const match = f.name.match(/\d/);
+    const anno = match ? match[0] : null;
+    if (anno && anno !== ultimoAnno) {
+      ultimoAnno = anno;
+      html += `<div style="margin:18px 10px 8px; border-top:1px solid var(--border); padding-top:10px; font-family:var(--font-mono); font-size:10px; color:var(--text-light); text-transform:uppercase; letter-spacing:0.1em; font-weight:500;">${anno}° Anno</div>`;
     }
-
-    // Aggiungiamo il singolo semestre
-    html += `<li class="nav-item" onclick="jumpToFolder('${f.id}','${eq(f.name)}')" title="${eh(f.name)}">
-               <span class="ni">📅</span> ${eh(f.name.length > 22 ? f.name.slice(0, 20) + '…' : f.name)}
+    const displayName = cleanName(f.name);
+    html += `<li class="nav-item" onclick="jumpToFolder('${f.id}','${eq(f.name)}')" title="${eh(displayName)}">
+               <span class="ni">📅</span> ${eh(displayName.length > 22 ? displayName.slice(0,20)+'…' : displayName)}
              </li>`;
   });
-  // --- FINE CICLO SEMESTRI ---
-
-  // 2. AGGIUNGIAMO IL README UNA VOLTA SOLA (FUORI DAL CICLO)
-  html += `
-    <li class="nav-item" onclick="openReadme()" style="margin-top: 25px; border-top: 1px dashed var(--border); padding-top: 15px; color: var(--accent); font-weight: 600;">
-      <span class="ni">📖</span> Leggi README / Info
-    </li>`;
-
+  html += `<li class="nav-item" onclick="openReadme()" style="margin-top:25px; border-top:1px dashed var(--border); padding-top:15px; color:var(--accent); font-weight:600;">
+    <span class="ni">📖</span> Leggi README / Info
+  </li>`;
   container.innerHTML = html;
 }
 
- 
-// --- LIGHTBOX VIEWER ---
-let lbxIndex = 0;
-let lbxItems = [];
-
+// --- LIGHTBOX ---
 function openFile(id) {
   lbxItems = allItems.filter(f => f.mimeType !== 'application/vnd.google-apps.folder');
+  // Se siamo in ricerca globale, usa fullIndex
+  if (currentId === ROOT_ID && document.getElementById('search-input').value.trim().length >= 2) {
+    const q = document.getElementById('search-input').value.toLowerCase().trim();
+    lbxItems = fullIndex.filter(f => f.mimeType !== 'application/vnd.google-apps.folder' && f.name.toLowerCase().includes(q));
+  }
   const idx = lbxItems.findIndex(f => f.id === id);
   lbxIndex = idx >= 0 ? idx : 0;
-  const lbx = document.getElementById('lbx');
-  lbx.classList.add('open');
-  lbx.focus();
+  document.getElementById('lbx').classList.add('open');
   lbxShow(lbxIndex);
 }
 
 function lbxShow(i) {
   const f = lbxItems[i];
   document.getElementById('lbx-title').textContent = f.name;
-  document.getElementById('lbx-counter').textContent = (i + 1) + ' / ' + lbxItems.length;
+  document.getElementById('lbx-counter').textContent = (i+1) + ' / ' + lbxItems.length;
   document.getElementById('lbx-prev').disabled = i === 0;
   document.getElementById('lbx-next').disabled = i === lbxItems.length - 1;
   const wrap = document.getElementById('lbx-frame-wrap');
@@ -705,6 +711,7 @@ function lbxShow(i) {
       iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
       wrap.appendChild(iframe);
       cached.remove();
+      addBlocker(wrap);
     } else {
       wrap.innerHTML = '<div class="lbx-loading"><div class="lbx-spinner"></div><span>Caricamento anteprima…</span></div>';
       const iframe = document.createElement('iframe');
@@ -716,6 +723,7 @@ function lbxShow(i) {
         wrap.querySelector('.lbx-loading')?.remove();
         iframe.style.opacity = '1';
         iframe.style.position = 'static';
+        addBlocker(wrap);
       };
     }
   } else {
@@ -726,9 +734,15 @@ function lbxShow(i) {
       <button class="lbx-open-ext" onclick="window.open('https://drive.google.com/file/d/${f.id}/view','_blank')">Apri in Google Drive ↗</button>
     </div>`;
   }
-
   lbxPreload(i - 1);
   lbxPreload(i + 1);
+}
+
+function addBlocker(wrap) {
+  const blocker = document.createElement('div');
+  blocker.className = 'lbx-blocker';
+  blocker.onclick = () => blocker.remove();
+  wrap.appendChild(blocker);
 }
 
 function lbxPreload(i) {
@@ -753,149 +767,75 @@ function closeLightbox() {
   document.getElementById('lbx-frame-wrap').innerHTML = '';
 }
 
+// --- UTILS ---
+function setView(v) {
+  currentView = v;
+  document.getElementById('btn-grid').classList.toggle('active', v==='grid');
+  document.getElementById('btn-list').classList.toggle('active', v==='list');
+  render();
+}
+function openReadme() { document.getElementById('readme-modal').style.display = 'flex'; }
+function closeReadme() { document.getElementById('readme-modal').style.display = 'none'; }
+
+function ico(f) {
+  const m = f.mimeType||'', n = f.name.toLowerCase();
+  if (m === 'application/vnd.google-apps.folder') return '📁';
+  if (m === 'application/pdf' || n.endsWith('.pdf')) return '📄';
+  if (m.includes('presentation') || /\.pptx?$/.test(n)) return '📊';
+  if (m.includes('spreadsheet') || /\.xlsx?$/.test(n)) return '📈';
+  if (m.includes('document') || /\.docx?$/.test(n)) return '📝';
+  if (m.includes('image') || /\.(jpg|jpeg|png|gif|webp)$/.test(n)) return '🖼';
+  if (/\.(zip|rar|7z)$/.test(n)) return '🗜';
+  if (/\.(mp4|mov|avi)$/.test(n)) return '🎬';
+  return '📎';
+}
+function fmt(b) {
+  if (!b) return '—';
+  if (b < 1024) return b+' B';
+  if (b < 1048576) return (b/1024).toFixed(1)+' KB';
+  if (b < 1073741824) return (b/1048576).toFixed(1)+' MB';
+  return (b/1073741824).toFixed(2)+' GB';
+}
+function rel(iso) {
+  const d = Math.floor((Date.now()-new Date(iso))/86400000);
+  if (d===0) return 'oggi'; if (d===1) return 'ieri';
+  if (d<30) return d+' gg fa'; if (d<365) return Math.floor(d/30)+' mesi fa';
+  return Math.floor(d/365)+' anni fa';
+}
+function eh(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function eq(s) { return String(s).replace(/'/g,"\\'"); }
+
 // --- AVVIO ---
 (function() {
   updateVisitCounter();
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(location.search);
   const folderId = params.get('f');
   if (folderId && folderId !== ROOT_ID) {
-    loadFolder(folderId, "Caricamento...");
+    loadFolder(folderId, 'Caricamento...');
   } else {
-    loadFolder(ROOT_ID, "UniFi");
+    loadFolder(ROOT_ID, 'UniFi');
   }
 })();
- 
-// Chiudi cliccando fuori
+
+// --- LISTENERS ---
 document.getElementById('lbx').addEventListener('click', e => {
   if (e.target === document.getElementById('lbx')) closeLightbox();
 });
 
-// Tastiera
-document.getElementById('lbx').addEventListener('keydown', e => {
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lbx').classList.contains('open')) return;
   if (e.key === 'ArrowLeft') { e.preventDefault(); lbxNav(-1); }
   if (e.key === 'ArrowRight') { e.preventDefault(); lbxNav(1); }
   if (e.key === 'Escape') closeLightbox();
   if (e.key === 'o' || e.key === 'O') window.open(`https://drive.google.com/file/d/${lbxItems[lbxIndex].id}/view`, '_blank');
 });
- 
-function setView(v) {
-  currentView=v;
-  document.getElementById('btn-grid').classList.toggle('active',v==='grid');
-  document.getElementById('btn-list').classList.toggle('active',v==='list');
-  render();
-}
 
-function ico(f) {
-  const m=f.mimeType||'', n=f.name.toLowerCase();
-  if(m==='application/vnd.google-apps.folder') return '📁';
-  if(m==='application/pdf'||n.endsWith('.pdf')) return '📄';
-  if(m.includes('presentation')||/\.pptx?$/.test(n)) return '📊';
-  if(m.includes('spreadsheet')||/\.xlsx?$/.test(n)) return '📈';
-  if(m.includes('document')||/\.docx?$/.test(n)) return '📝';
-  if(m.includes('image')||/\.(jpg|jpeg|png|gif|webp)$/.test(n)) return '🖼';
-  if(/\.(zip|rar|7z)$/.test(n)) return '🗜';
-  if(/\.(mp4|mov|avi)$/.test(n)) return '🎬';
-  return '📎';
-}
-function fmt(b) {
-  if(!b) return '—';
-  if(b<1024) return b+' B';
-  if(b<1048576) return (b/1024).toFixed(1)+' KB';
-  if(b<1073741824) return (b/1048576).toFixed(1)+' MB';
-  return (b/1073741824).toFixed(2)+' GB';
-}
-function rel(iso) {
-  const d=Math.floor((Date.now()-new Date(iso))/86400000);
-  if(d===0) return 'oggi'; if(d===1) return 'ieri';
-  if(d<30) return d+' gg fa'; if(d<365) return Math.floor(d/30)+' mesi fa';
-  return Math.floor(d/365)+' anni fa';
-}
-
- function eh(s) {
-  if (!s) return "";
-  let name = s;
-
-  // 1. RITAGLIO INTELLIGENTE
-  // Cerca "semestre" seguito da due numeri, un punto/trattino e altri due numeri.
-  // Mantiene tutto quello che c'è PRIMA (es. "LEZIONI 1.1") e l'anno stesso.
-  const regexSemestre = /(.*semestre\s+\d{2}[.\-]\d{2}).*/i;
-  
-  if (regexSemestre.test(name)) {
-    name = name.replace(regexSemestre, '$1');
+// Retry automatico ogni 30s se in manutenzione
+setInterval(() => {
+  if (document.getElementById('maintenance-overlay').style.display !== 'none') {
+    loadFolder(ROOT_ID, 'UniFi');
   }
-
-  // 2. PULIZIA EMOJI E SIMBOLI HTML
-  return name
-    .replace(/\p{Extended_Pictographic}/gu, '') 
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/\s\s+/g, ' ') // Trasforma doppi spazi in uno singolo
-    .trim();
-}
- 
-function eq(s) { return s.replace(/'/g,"\\'"); }
-
-
+}, 30000);
 </script>
-
-
- <div id="readme-modal" class="modal-overlay" onclick="closeReadme()">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeReadme()">×</button>
-    
-    <div class="readme-body">
-      <h2 style="font-family: var(--font-serif); color: var(--accent); margin-bottom: 1.5rem;">Benvenuto nell'Archivio :)</h2>
-      
-      <p style="font-style: italic; border-left: 3px solid var(--accent); padding-left: 15px; margin-bottom: 2rem; color: var(--text); line-height: 1.8; text-align: justify; text-justify: inter-word;">
-        Questo progetto è un ecosistema di mutuo soccorso. Vendere il materiale, oltre a essere immorale, è anche illegale. 
-         L'obiettivo è centralizzare ciò che spesso si perde nei meandri di gruppi WhatsApp o Drive privati, rendendo il percorso universitario meno tortuoso per tutti.
-      </p>
-
-      <hr style="border: 0; border-top: 1px solid var(--border); margin: 2rem 0;">
-
-      <h3 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.5rem;">Motivazioni</h3>
-      <p style="text-align: justify; text-justify: inter-word;">Il materiale didattico dovrebbe essere un bene comune. L'intento è quello di unire gli sforzi di tutti e garantire il diritto allo studio in modo semplice e gratuito.</p>
-      
-      <h3 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-top: 1.5rem; margin-bottom: 0.5rem;">Note Legali & Copyright</h3>
-      <ul style="list-style: none; padding: 0; font-size: 0.9rem; text-align: justify; text-justify: inter-word;">
-        <li style="margin-bottom: 8px;">🔹 <strong>Indipendenza:</strong> Questa è una iniziativa studentesca <u>non ufficiale</u> e non affiliata in alcun modo a UniFi, destinata a esclusivo uso personale.</li>
-        <li style="margin-bottom: 8px;">🔹 <strong>No Profit:</strong> L'archivio è 100% gratuito e non genera alcun tipo di guadagno.</li>
-        <li style="margin-bottom: 8px;">🔹 <strong>Rimozioni:</strong> Per richieste di rimozione contenuti, scrivi a: <br>
-            <a href="mailto:archivio_biologia_free@proton.me" class="email-inline">archivio_biologia_free@proton.me</a></li>
-      </ul>
-      
-      <div style="margin-top: 30px; font-size: 0.75rem; color: var(--text-light); font-family: var(--font-mono); text-align: center;">
-        ~ visualizzazione ottimizzata solo per versione desktop ~ <br>
-        <span style="opacity: 0.7;">v1.1 | 2026</span>
-      </div>
-    </div>
-  </div>
-</div>
-
- <div class="lbx-overlay" id="lbx" tabindex="-1">
-  <div class="lbx-header">
-    <span class="lbx-title" id="lbx-title">—</span>
-    <span class="lbx-counter" id="lbx-counter"></span>
-    <button class="lbx-close" onclick="closeLightbox()">×</button>
-  </div>
-  <div class="lbx-body">
-    <button class="lbx-arrow" id="lbx-prev" onclick="lbxNav(-1)">&#8592;</button>
-    <div class="lbx-frame-wrap" id="lbx-frame-wrap">
-      <div class="lbx-loading" id="lbx-loading">
-        <div class="lbx-spinner"></div>
-        <span>Caricamento anteprima…</span>
-      </div>
-    </div>
-    <button class="lbx-arrow" id="lbx-next" onclick="lbxNav(1)">&#8594;</button>
-  </div>
-  <div class="lbx-footer">
-    <kbd>←</kbd> <kbd>→</kbd> naviga &nbsp;&nbsp;
-    <kbd>Esc</kbd> chiudi &nbsp;&nbsp;
-    <kbd>O</kbd> apri in Drive
-  </div>
-</div>
- 
 </body>
 </html>
