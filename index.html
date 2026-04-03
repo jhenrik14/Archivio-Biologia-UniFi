@@ -580,9 +580,18 @@ function render() {
 }
 
 // --- HTML COMPONENTS ---
-function cleanName(s) { return s.replace(/[\u{1F300}-\u{1FFFF}]/gu, '').replace(/[\u2600-\u27BF]/g, '').trim(); 
-                       const yearMatch = name.match(/.*?\d{2}\.\d{2}/);
-                       return yearMatch ? yearMatch[0].trim() : name;
+function cleanName(s) {
+  if (!s) return '';
+  // 1. Rimuove emoji e simboli
+  let name = s.replace(/[\u{1F300}-\u{1FFFF}]/gu, '').replace(/[\u2600-\u27BF]/g, '').trim();
+
+  // 2. Cerca la posizione dell'anno (due numeri, punto, due numeri)
+  const match = name.match(/\d{2}\.\d{2}/);
+  if (match) {
+    // Taglia tutto quello che viene dopo l'anno
+    return name.substring(0, match.index + 5).trim();
+  }
+  return name;
 }
 
 function cardHTML(f) {
