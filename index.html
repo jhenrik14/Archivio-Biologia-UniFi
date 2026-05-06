@@ -452,15 +452,14 @@ function toggleTheme() {
 // --- VISITE ---
 async function updateVisitCounter() {
   try {
-    const path = window.location.pathname || '/';
-    const res = await fetch(`https://archiviobiologia.goatcounter.com/counter/total.json`);
-    if (!res.ok) throw new Error();
+    const namespace = 'archivio-biologia-unifi';
+    const key = 'visits';
+    const res = await fetch(`https://abacus.jasoncameron.dev/hit/${namespace}/${key}`);
     const data = await res.json();
-    const count = data.count || 0;
-    document.getElementById('visit-count').textContent = count.toLocaleString();
-    document.getElementById('s-visits').textContent = count.toLocaleString();
+    if (data.value !== undefined) {
+      document.getElementById('s-visits').textContent = data.value.toLocaleString('it-IT');
+    }
   } catch(e) {
-    document.getElementById('visit-count').textContent = '—';
     document.getElementById('s-visits').textContent = '—';
   }
 }
