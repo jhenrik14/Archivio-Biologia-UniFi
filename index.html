@@ -473,13 +473,10 @@ async function updateVisitCounter() {
     const res = await fetch(endpoint);
     const data = await res.json();
     if (data.value !== undefined) {
-      const formatted = data.value.toLocaleString('it-IT');
-      document.getElementById('s-visits').textContent = formatted;
-      document.getElementById('visit-count').textContent = formatted;
+      document.getElementById('s-visits').textContent = data.value.toLocaleString('it-IT');
     }
   } catch(e) {
     document.getElementById('s-visits').textContent = '—';
-    document.getElementById('visit-count').textContent = '—';
   }
 }
 
