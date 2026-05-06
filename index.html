@@ -451,10 +451,24 @@ function toggleTheme() {
 
 // --- VISITE ---
 async function updateVisitCounter() {
+  const namespace = 'archivio-biologia-unifi';
+  const key = 'visits';
+  
+  // sessionStorage si svuota quando chiudi la scheda
+  const countedThisSession = sessionStorage.getItem('counted');
+  
   try {
-    const namespace = 'archivio-biologia-unifi';
-    const key = 'visits';
-    const res = await fetch(`https://abacus.jasoncameron.dev/hit/${namespace}/${key}`);
+    let endpoint;
+    if (countedThisSession) {
+      // Già contato in questa sessione: solo lettura
+      endpoint = `https://abacus.jasoncameron.dev/get/${namespace}/${key}`;
+    } else {
+      // Nuova sessione: incrementa
+      endpoint = `https://abacus.jasoncameron.dev/hit/${namespace}/${key}`;
+      sessionStorage.setItem('counted', 'true');
+    }
+    
+    const res = await fetch(endpoint);
     const data = await res.json();
     if (data.value !== undefined) {
       document.getElementById('s-visits').textContent = data.value.toLocaleString('it-IT');
