@@ -313,9 +313,6 @@ body { display: flex; flex-direction: column; }
     </div>
   </div>
   <div class="header-right">
-    <div class="visit-counter" id="visit-counter">
-      👁 <span id="visit-count">—</span>
-    </div>
     <div class="theme-toggle">
       <span class="toggle-icon">☀️</span>
       <div class="toggle-track" onclick="toggleTheme()" title="Cambia tema chiaro/scuro"></div>
@@ -454,16 +451,21 @@ async function updateVisitCounter() {
   const namespace = 'archivio-biologia-unifi';
   const key = 'visits';
   
-  // sessionStorage si svuota quando chiudi la scheda
+  const params = new URLSearchParams(location.search);
+  if (params.get('owner') === 'true') {
+    localStorage.setItem('isOwner', 'true');
+    const cleanUrl = location.protocol + '//' + location.host + location.pathname;
+    history.replaceState({}, '', cleanUrl);
+  }
+  
+  const isOwner = localStorage.getItem('isOwner') === 'true';
   const countedThisSession = sessionStorage.getItem('counted');
   
   try {
     let endpoint;
-    if (countedThisSession) {
-      // Già contato in questa sessione: solo lettura
+    if (isOwner || countedThisSession) {
       endpoint = `https://abacus.jasoncameron.dev/get/${namespace}/${key}`;
     } else {
-      // Nuova sessione: incrementa
       endpoint = `https://abacus.jasoncameron.dev/hit/${namespace}/${key}`;
       sessionStorage.setItem('counted', 'true');
     }
@@ -471,10 +473,13 @@ async function updateVisitCounter() {
     const res = await fetch(endpoint);
     const data = await res.json();
     if (data.value !== undefined) {
-      document.getElementById('s-visits').textContent = data.value.toLocaleString('it-IT');
+      const formatted = data.value.toLocaleString('it-IT');
+      document.getElementById('s-visits').textContent = formatted;
+      document.getElementById('visit-count').textContent = formatted;
     }
   } catch(e) {
     document.getElementById('s-visits').textContent = '—';
+    document.getElementById('visit-count').textContent = '—';
   }
 }
 
